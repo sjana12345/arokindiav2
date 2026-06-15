@@ -1,4 +1,19 @@
 {
+  "seo": {
+    "title": "AROK INDIA | Performance Band Portfolio",
+    "description": "Arok India is a performance-driven live music collective delivering high-energy stage experiences across weddings, concerts, corporate shows and curated musical productions.",
+    "keywords": "Arok India, live band, wedding music, concert band, corporate events, live performances, Kolkata band",
+    "ogTitle": "",
+    "ogDescription": "",
+    "ogImage": "",
+    "twitterHandle": "",
+    "canonicalUrl": "https://arokindia.net",
+    "robotsTxt": "User-agent: *\nDisallow: /"
+  },
+  "colors": {
+    "primary": "#7b0e0e",
+    "secondary": "#a1456d"
+  },
   "logo": "/uploads/logo.png",
   "logoHeight": 70,
   "hero": {
@@ -106,8 +121,8 @@
     },
     {
       "id": 5,
-      "name": "Ritwick",
-      "role": "Keyboardist",
+      "name": "Sudipta",
+      "role": "Bassist",
       "category": "Musicians",
       "bio": "A classically trained keyboardist bringing soulful melodies and intricate harmonies to our compositions.",
       "image": "/assets/images/Media5.jpeg",
@@ -117,8 +132,8 @@
     },
     {
       "id": 6,
-      "name": "Advertise Here",
-      "role": "Your Brand",
+      "name": "Chayapoth - Releasing on 21st June 2026",
+      "role": "Arok India - New Single",
       "category": "Ad",
       "bio": "Want to showcase your brand? Contact us for advertising opportunities on our platform.",
       "image": "https://placehold.co/1080x1350/000000/FFFFFF?text=1080+x+1350",

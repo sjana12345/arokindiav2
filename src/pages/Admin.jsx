@@ -5,15 +5,16 @@ import 'react-quill-new/dist/quill.snow.css';
 import { useAuth } from '../context/AuthContext';
 import { useContent } from '../hooks/useContent';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LogOut, Save, Image as ImageIcon, Layout, Users, Calendar, Video, Grid, CheckCircle2, AlertCircle } from 'lucide-react';
+import { LogOut, Save, Image as ImageIcon, Layout, Users, Calendar, Video, Grid, CheckCircle2, AlertCircle, Palette, Search } from 'lucide-react';
 import { ICON_MAP } from '../sections/Intro';
 import { cn } from '../utils/cn';
+import { applyTheme } from '../utils/colorUtils';
 
 const Admin = () => {
   const { user, token, logout, loading: authLoading } = useAuth();
   const { content, loading: contentLoading, updateContent } = useContent();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('hero');
+  const [activeTab, setActiveTab] = useState('seo');
   const [formData, setFormData] = useState(null);
   const [status, setStatus] = useState({ type: '', message: '' });
   const [newGig, setNewGig] = useState({ date: '', title: '', location: '', type: 'Wedding', status: 'upcoming', image: '' });
@@ -21,6 +22,8 @@ const Admin = () => {
   const [newGallery, setNewGallery] = useState({ category: 'Concerts', url: '', title: '' });
   const [logoFile, setLogoFile] = useState(null);
   const [logoPreview, setLogoPreview] = useState('');
+  const [sitemapXml, setSitemapXml] = useState('');
+  const [copied, setCopied] = useState('');
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -189,6 +192,8 @@ const Admin = () => {
   };
 
   const tabs = [
+    { id: 'seo', label: 'SEO', icon: Search },
+    { id: 'colors', label: 'Colors', icon: Palette },
     { id: 'logo', label: 'Logo', icon: ImageIcon },
     { id: 'hero', label: 'Hero', icon: Layout },
     { id: 'intro', label: 'Intro', icon: Layout },
@@ -268,6 +273,287 @@ const Admin = () => {
 
             <div className="space-y-8">
               {/* Dynamic Content Rendering based on Tab */}
+              {activeTab === 'seo' && (
+                <div className="space-y-6">
+                  {/* Basic */}
+                  <div className="p-6 bg-black rounded-2xl border border-zinc-800 space-y-5">
+                    <h4 className="text-xs font-bold text-gray-500 uppercase tracking-widest">Basic</h4>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Page Title</label>
+                      <input
+                        type="text"
+                        className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                        placeholder="AROK INDIA | Performance Band Portfolio"
+                        value={formData.seo?.title || ''}
+                        onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, title: e.target.value } }))}
+                      />
+                      <p className="text-xs text-gray-600">Shown in browser tabs and Google search results. Keep under 60 characters.</p>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Meta Description</label>
+                      <textarea
+                        rows="3"
+                        className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 resize-none"
+                        placeholder="A short description of your site for search engines..."
+                        value={formData.seo?.description || ''}
+                        onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, description: e.target.value } }))}
+                      />
+                      <p className="text-xs text-gray-600">Shown below your title in Google results. Keep under 160 characters. Currently: <span className="text-purple-400">{(formData.seo?.description || '').length}</span> chars.</p>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Keywords</label>
+                      <input
+                        type="text"
+                        className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                        placeholder="live band, wedding music, Kolkata, concerts..."
+                        value={formData.seo?.keywords || ''}
+                        onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, keywords: e.target.value } }))}
+                      />
+                      <p className="text-xs text-gray-600">Comma-separated. Minor ranking signal, but useful for topical relevance.</p>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Canonical URL</label>
+                      <input
+                        type="text"
+                        className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                        placeholder="https://arokindia.net"
+                        value={formData.seo?.canonicalUrl || ''}
+                        onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, canonicalUrl: e.target.value } }))}
+                      />
+                      <p className="text-xs text-gray-600">Prevents duplicate-content issues. Should be your primary domain.</p>
+                    </div>
+                  </div>
+
+                  {/* Open Graph */}
+                  <div className="p-6 bg-black rounded-2xl border border-zinc-800 space-y-5">
+                    <h4 className="text-xs font-bold text-gray-500 uppercase tracking-widest">Open Graph (Social Sharing)</h4>
+                    <p className="text-xs text-gray-600">Controls how your link looks when shared on WhatsApp, Facebook, LinkedIn, etc. Leave blank to inherit from Basic fields above.</p>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">OG Title Override</label>
+                      <input
+                        type="text"
+                        className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                        placeholder="Leave blank to use Page Title"
+                        value={formData.seo?.ogTitle || ''}
+                        onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, ogTitle: e.target.value } }))}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">OG Description Override</label>
+                      <textarea
+                        rows="2"
+                        className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 resize-none"
+                        placeholder="Leave blank to use Meta Description"
+                        value={formData.seo?.ogDescription || ''}
+                        onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, ogDescription: e.target.value } }))}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">OG Image URL</label>
+                      <input
+                        type="text"
+                        className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                        placeholder="https://arokindia.net/assets/images/og-cover.jpg"
+                        value={formData.seo?.ogImage || ''}
+                        onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, ogImage: e.target.value } }))}
+                      />
+                      <p className="text-xs text-gray-600">Recommended size: 1200 × 630 px. This image is shown when your link is shared.</p>
+                      {formData.seo?.ogImage && (
+                        <img src={formData.seo.ogImage} alt="OG preview" className="mt-2 rounded-xl w-full max-w-sm object-cover border border-zinc-700" />
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Twitter */}
+                  <div className="p-6 bg-black rounded-2xl border border-zinc-800 space-y-5">
+                    <h4 className="text-xs font-bold text-gray-500 uppercase tracking-widest">Twitter / X Card</h4>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Twitter Handle</label>
+                      <input
+                        type="text"
+                        className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                        placeholder="@arokindia"
+                        value={formData.seo?.twitterHandle || ''}
+                        onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, twitterHandle: e.target.value } }))}
+                      />
+                      <p className="text-xs text-gray-600">Your Twitter/X @username. Used for the twitter:site tag.</p>
+                    </div>
+                  </div>
+
+                  {/* Sitemap */}
+                  <div className="p-6 bg-black rounded-2xl border border-zinc-800 space-y-4">
+                    <h4 className="text-xs font-bold text-gray-500 uppercase tracking-widest">Sitemap.xml</h4>
+                    <p className="text-xs text-gray-500">Auto-generated from your canonical URL and all public routes. Always up to date — no manual regeneration needed.</p>
+                    <div className="flex items-center gap-3 bg-zinc-900 rounded-xl px-4 py-3 border border-zinc-800">
+                      <span className="text-purple-400 text-sm font-mono flex-1 truncate">
+                        {(formData.seo?.canonicalUrl || 'https://arokindia.net').replace(/\/$/, '')}/sitemap.xml
+                      </span>
+                      <button
+                        onClick={() => {
+                          const url = `${(formData.seo?.canonicalUrl || 'https://arokindia.net').replace(/\/$/, '')}/sitemap.xml`;
+                          navigator.clipboard.writeText(url);
+                          setCopied('sitemap');
+                          setTimeout(() => setCopied(''), 2000);
+                        }}
+                        className="text-xs text-gray-400 hover:text-white transition-colors shrink-0"
+                      >
+                        {copied === 'sitemap' ? 'Copied!' : 'Copy'}
+                      </button>
+                    </div>
+                    <button
+                      onClick={async () => {
+                        setSitemapXml('Loading...');
+                        try {
+                          const res = await fetch('/sitemap.xml');
+                          const text = await res.text();
+                          setSitemapXml(text);
+                        } catch {
+                          setSitemapXml('Error fetching sitemap.');
+                        }
+                      }}
+                      className="text-xs text-purple-400 hover:text-purple-300 transition-colors font-bold"
+                    >
+                      {sitemapXml ? 'Refresh Preview' : 'Preview Sitemap'}
+                    </button>
+                    {sitemapXml && (
+                      <pre className="bg-zinc-950 border border-zinc-800 rounded-xl p-4 text-xs text-gray-400 overflow-x-auto whitespace-pre-wrap break-all">
+                        {sitemapXml}
+                      </pre>
+                    )}
+                  </div>
+
+                  {/* Robots.txt */}
+                  <div className="p-6 bg-black rounded-2xl border border-zinc-800 space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h4 className="text-xs font-bold text-gray-500 uppercase tracking-widest">Robots.txt</h4>
+                      <div className="flex gap-3">
+                        <button
+                          onClick={() => {
+                            const base = (formData.seo?.canonicalUrl || 'https://arokindia.net').replace(/\/$/, '');
+                            setFormData(prev => ({
+                              ...prev,
+                              seo: {
+                                ...prev.seo,
+                                robotsTxt: `User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /login\n\nSitemap: ${base}/sitemap.xml`,
+                              },
+                            }));
+                          }}
+                          className="text-xs text-gray-500 hover:text-white transition-colors px-3 py-1 bg-zinc-800 rounded-lg"
+                        >
+                          Reset to Default
+                        </button>
+                        <button
+                          onClick={() => {
+                            navigator.clipboard.writeText(formData.seo?.robotsTxt || '');
+                            setCopied('robots');
+                            setTimeout(() => setCopied(''), 2000);
+                          }}
+                          className="text-xs text-gray-500 hover:text-white transition-colors px-3 py-1 bg-zinc-800 rounded-lg"
+                        >
+                          {copied === 'robots' ? 'Copied!' : 'Copy'}
+                        </button>
+                      </div>
+                    </div>
+                    <p className="text-xs text-gray-500">Controls which pages search engine crawlers can access. Served live at <span className="text-purple-400">/robots.txt</span>.</p>
+                    <textarea
+                      rows="8"
+                      spellCheck={false}
+                      className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-green-400 font-mono focus:outline-none focus:border-purple-500 resize-y"
+                      value={formData.seo?.robotsTxt || ''}
+                      onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, robotsTxt: e.target.value } }))}
+                    />
+                  </div>
+
+                  <p className="text-xs text-gray-600">Click <span className="text-purple-400 font-bold">Save Changes</span> to apply all SEO settings. Changes to robots.txt are served immediately after save.</p>
+                </div>
+              )}
+
+              {activeTab === 'colors' && (
+                <div className="space-y-8">
+                  {/* Primary Color */}
+                  <div className="space-y-4">
+                    <label className="text-xs font-bold text-gray-500 uppercase tracking-widest block">Primary Accent Color</label>
+                    <div className="p-6 bg-black rounded-2xl border border-zinc-800 space-y-4">
+                      <p className="text-xs text-gray-500">Controls buttons, highlights, active links, and glow effects across the site.</p>
+                      <div className="flex items-center gap-4">
+                        <input
+                          type="color"
+                          value={formData.colors?.primary || '#a855f7'}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setFormData(prev => ({ ...prev, colors: { ...prev.colors, primary: val } }));
+                            applyTheme({ primary: val, secondary: formData.colors?.secondary });
+                          }}
+                          className="w-14 h-14 rounded-xl border-0 cursor-pointer bg-transparent"
+                        />
+                        <div className="flex-1">
+                          <p className="text-white font-bold text-lg">{formData.colors?.primary || '#a855f7'}</p>
+                          <p className="text-gray-500 text-xs mt-1">Click the swatch to open the color picker</p>
+                        </div>
+                        <button
+                          onClick={() => {
+                            const val = '#a855f7';
+                            setFormData(prev => ({ ...prev, colors: { ...prev.colors, primary: val } }));
+                            applyTheme({ primary: val, secondary: formData.colors?.secondary });
+                          }}
+                          className="text-xs text-gray-500 hover:text-white transition-colors px-3 py-2 bg-zinc-800 rounded-lg"
+                        >
+                          Reset
+                        </button>
+                      </div>
+                      {/* Shade Preview */}
+                      <div className="flex gap-2 mt-2">
+                        {[300, 400, 500, 600, 700].map((shade) => (
+                          <div key={shade} className="flex-1 text-center">
+                            <div
+                              className="h-8 rounded-lg mb-1"
+                              style={{ backgroundColor: `var(--color-purple-${shade})` }}
+                            />
+                            <span className="text-xs text-gray-600">{shade}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Secondary Color */}
+                  <div className="space-y-4">
+                    <label className="text-xs font-bold text-gray-500 uppercase tracking-widest block">Secondary Accent Color</label>
+                    <div className="p-6 bg-black rounded-2xl border border-zinc-800 space-y-4">
+                      <p className="text-xs text-gray-500">Used for secondary highlights and decorative elements.</p>
+                      <div className="flex items-center gap-4">
+                        <input
+                          type="color"
+                          value={formData.colors?.secondary || '#ffffff'}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setFormData(prev => ({ ...prev, colors: { ...prev.colors, secondary: val } }));
+                            applyTheme({ primary: formData.colors?.primary, secondary: val });
+                          }}
+                          className="w-14 h-14 rounded-xl border-0 cursor-pointer bg-transparent"
+                        />
+                        <div className="flex-1">
+                          <p className="text-white font-bold text-lg">{formData.colors?.secondary || '#ffffff'}</p>
+                          <p className="text-gray-500 text-xs mt-1">Click the swatch to open the color picker</p>
+                        </div>
+                        <button
+                          onClick={() => {
+                            const val = '#ffffff';
+                            setFormData(prev => ({ ...prev, colors: { ...prev.colors, secondary: val } }));
+                            applyTheme({ primary: formData.colors?.primary, secondary: val });
+                          }}
+                          className="text-xs text-gray-500 hover:text-white transition-colors px-3 py-2 bg-zinc-800 rounded-lg"
+                        >
+                          Reset
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p className="text-xs text-gray-600">Changes are previewed live. Click <span className="text-purple-400 font-bold">Save Changes</span> to persist across all visitors.</p>
+                </div>
+              )}
+
               {activeTab === 'logo' && (
                 <div className="space-y-8">
                   {/* Current Logo */}
@@ -559,10 +845,10 @@ const Admin = () => {
                           />
                           <input
                             type="text"
-                            placeholder="Twitter URL"
+                            placeholder="Facebook URL"
                             className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-purple-500"
-                            value={member.social?.twitter || ''}
-                            onChange={(e) => handleInputChange('team', 'social', { ...member.social, twitter: e.target.value }, index)}
+                            value={member.social?.facebook || ''}
+                            onChange={(e) => handleInputChange('team', 'social', { ...member.social, facebook: e.target.value }, index)}
                           />
                           <input
                             type="text"

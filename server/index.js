@@ -152,6 +152,53 @@ app.post('/api/enquiry', async (req, res) => {
   }
 });
 
+// Sitemap
+app.get('/sitemap.xml', (req, res) => {
+  fs.readFile(DATA_FILE, 'utf8', (err, data) => {
+    if (err) return res.status(500).send('Error generating sitemap');
+    const content = JSON.parse(data);
+    const base = (content.seo?.canonicalUrl || 'https://arokindia.net').replace(/\/$/, '');
+    const today = new Date().toISOString().split('T')[0];
+
+    const staticRoutes = [
+      { path: '/', changefreq: 'weekly', priority: '1.0' },
+      { path: '/privacy-policy', changefreq: 'yearly', priority: '0.3' },
+      { path: '/terms-of-service', changefreq: 'yearly', priority: '0.3' },
+    ];
+
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${staticRoutes
+  .map(
+    (r) => `  <url>
+    <loc>${base}${r.path}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>${r.changefreq}</changefreq>
+    <priority>${r.priority}</priority>
+  </url>`
+  )
+  .join('\n')}
+</urlset>`;
+
+    res.setHeader('Content-Type', 'application/xml');
+    res.send(xml);
+  });
+});
+
+// Robots.txt
+app.get('/robots.txt', (req, res) => {
+  fs.readFile(DATA_FILE, 'utf8', (err, data) => {
+    if (err) return res.status(500).send('Error');
+    const content = JSON.parse(data);
+    const base = (content.seo?.canonicalUrl || 'https://arokindia.net').replace(/\/$/, '');
+    const robotsTxt =
+      content.seo?.robotsTxt ||
+      `User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /login\n\nSitemap: ${base}/sitemap.xml`;
+    res.setHeader('Content-Type', 'text/plain');
+    res.send(robotsTxt);
+  });
+});
+
 // Serve built React app
 const DIST_DIR = path.join(__dirname, '../dist');
 app.use(express.static(DIST_DIR));

@@ -2,6 +2,9 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { scroller } from 'react-scroll';
 import { AuthProvider } from './context/AuthContext';
+import { useContent } from './hooks/useContent';
+import { applyTheme } from './utils/colorUtils';
+import { applySeo } from './utils/seoUtils';
 import Navbar from './components/Navbar';
 import Hero from './sections/Hero';
 import Intro from './sections/Intro';
@@ -17,6 +20,15 @@ import TermsOfService from './pages/TermsOfService';
 import Login from './pages/Login';
 import Admin from './pages/Admin';
 import './App.css';
+
+const ThemeInjector = () => {
+  const { content } = useContent();
+  useEffect(() => {
+    if (content?.colors) applyTheme(content.colors);
+    if (content?.seo) applySeo(content.seo);
+  }, [content]);
+  return null;
+};
 
 const Home = () => {
   const location = useLocation();
@@ -51,6 +63,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
+        <ThemeInjector />
         <div className="bg-black text-white selection:bg-purple-500 selection:text-white">
           <Navbar />
           <Routes>
