@@ -4,6 +4,7 @@ const API_URL = '/api';
 const CACHE_KEY = 'arok_content_cache';
 
 const readCache = () => {
+  if (typeof window === 'undefined') return null;
   try {
     const raw = localStorage.getItem(CACHE_KEY);
     return raw ? JSON.parse(raw) : null;

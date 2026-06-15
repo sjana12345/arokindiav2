@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { scroller } from 'react-scroll';
 import { AuthProvider } from './context/AuthContext';
 import { useContent } from './hooks/useContent';
@@ -72,20 +72,18 @@ const Home = () => {
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <ThemeInjector />
-        <div className="bg-black text-white selection:bg-purple-500 selection:text-white">
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/terms-of-service" element={<TermsOfService />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/admin" element={<Admin />} />
-          </Routes>
-          <Footer />
-        </div>
-      </Router>
+      <ThemeInjector />
+      <div className="bg-black text-white selection:bg-purple-500 selection:text-white">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/admin" element={<Admin />} />
+        </Routes>
+        <Footer />
+      </div>
     </AuthProvider>
   );
 }

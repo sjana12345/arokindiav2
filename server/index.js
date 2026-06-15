@@ -212,11 +212,71 @@ app.get('/robots.txt', (req, res) => {
   });
 });
 
-// Serve built React app
-const DIST_DIR = path.join(__dirname, '../dist');
-app.use(express.static(DIST_DIR));
-app.get('/{*path}', (_req, res) => {
-  res.sendFile(path.join(DIST_DIR, 'index.html'));
+// ── Helpers for server-side HTML injection ──────────────────────────────────
+
+const hexChannel = (hex, start) => parseInt(hex.replace('#', '').slice(start, start + 2), 16);
+
+const hexDarken = (hex, f) =>
+  '#' + [0, 2, 4].map(i => Math.min(255, Math.round(hexChannel(hex, i) * f)).toString(16).padStart(2, '0')).join('');
+
+const hexLighten = (hex, f) =>
+  '#' + [0, 2, 4].map(i => Math.min(255, Math.round(hexChannel(hex, i) + (255 - hexChannel(hex, i)) * f)).toString(16).padStart(2, '0')).join('');
+
+const esc = (s) => String(s).replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+function buildHeadTags(content) {
+  const seo = content.seo || {};
+  const colors = content.colors || {};
+  const title = seo.title || 'AROK INDIA';
+  const desc = seo.description || '';
+  const ogTitle = seo.ogTitle || title;
+  const ogDesc = seo.ogDescription || desc;
+
+  let tags = `<title>${esc(title)}</title>\n`;
+  if (desc)         tags += `  <meta name="description" content="${esc(desc)}" />\n`;
+  if (seo.keywords) tags += `  <meta name="keywords" content="${esc(seo.keywords)}" />\n`;
+  tags += `  <meta property="og:title" content="${esc(ogTitle)}" />\n`;
+  tags += `  <meta property="og:description" content="${esc(ogDesc)}" />\n`;
+  tags += `  <meta property="og:type" content="website" />\n`;
+  if (seo.ogImage)     tags += `  <meta property="og:image" content="${esc(seo.ogImage)}" />\n`;
+  if (seo.canonicalUrl) {
+    tags += `  <link rel="canonical" href="${esc(seo.canonicalUrl)}" />\n`;
+    tags += `  <meta property="og:url" content="${esc(seo.canonicalUrl)}" />\n`;
+  }
+  if (seo.twitterHandle) {
+    const handle = seo.twitterHandle.startsWith('@') ? seo.twitterHandle : `@${seo.twitterHandle}`;
+    tags += `  <meta name="twitter:card" content="summary_large_image" />\n`;
+    tags += `  <meta name="twitter:site" content="${esc(handle)}" />\n`;
+    tags += `  <meta name="twitter:title" content="${esc(ogTitle)}" />\n`;
+    tags += `  <meta name="twitter:description" content="${esc(ogDesc)}" />\n`;
+    if (seo.ogImage) tags += `  <meta name="twitter:image" content="${esc(seo.ogImage)}" />\n`;
+  }
+  if (content.favicon) tags += `  <link rel="icon" href="${esc(content.favicon)}" />\n`;
+  if (colors.primary) {
+    const p = colors.primary;
+    tags += `  <style>:root{--color-purple-300:${hexLighten(p,0.4)};--color-purple-400:${hexLighten(p,0.2)};--color-purple-500:${p};--color-purple-600:${hexDarken(p,0.87)};--color-purple-700:${hexDarken(p,0.75)}}</style>\n`;
+  }
+  return tags;
+}
+
+// ── Static assets + catch-all ────────────────────────────────────────────────
+
+const CLIENT_DIR = path.join(__dirname, '../dist/client');
+
+// Serve built JS/CSS/assets, skip index.html so the catch-all handles it
+app.use(express.static(CLIENT_DIR, { index: false }));
+
+app.get('/{*path}', (req, res) => {
+  try {
+    const template = fs.readFileSync(path.join(CLIENT_DIR, 'index.html'), 'utf-8');
+    const content = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
+    const html = template.replace('<!--head-tags-->', buildHeadTags(content));
+    res.setHeader('Content-Type', 'text/html');
+    res.send(html);
+  } catch (e) {
+    console.error('Server error:', e);
+    res.status(500).send('Server error');
+  }
 });
 
 app.listen(PORT, () => {
