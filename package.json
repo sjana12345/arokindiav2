@@ -7,7 +7,9 @@
     "dev": "vite",
     "server": "node server/index.js",
     "start:all": "npx concurrently \"npm run server\" \"npm run dev\"",
-    "build": "vite build --outDir dist/client",
+    "build:client": "vite build --outDir dist/client",
+    "build:server": "vite build --ssr src/entry-server.jsx --outDir dist/server",
+    "build": "npm run build:client && npm run build:server",
     "lint": "eslint .",
     "preview": "vite preview"
   },

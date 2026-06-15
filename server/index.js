@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import multer from 'multer';
@@ -259,18 +259,44 @@ function buildHeadTags(content) {
   return tags;
 }
 
-// ── Static assets + catch-all ────────────────────────────────────────────────
+// ── Static assets + SSR catch-all ────────────────────────────────────────────
 
 const CLIENT_DIR = path.join(__dirname, '../dist/client');
+const SERVER_ENTRY = path.join(__dirname, '../dist/server/entry-server.js');
 
 // Serve built JS/CSS/assets, skip index.html so the catch-all handles it
 app.use(express.static(CLIENT_DIR, { index: false }));
 
-app.get('/{*path}', (req, res) => {
+let ssrRender = null;
+
+app.get('/{*path}', async (req, res) => {
   try {
     const template = fs.readFileSync(path.join(CLIENT_DIR, 'index.html'), 'utf-8');
     const content = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
-    const html = template.replace('<!--head-tags-->', buildHeadTags(content));
+
+    // Lazy-load SSR bundle once; fall back to empty string on any error
+    if (!ssrRender) {
+      try {
+        const mod = await import(pathToFileURL(SERVER_ENTRY).href);
+        ssrRender = mod.render;
+      } catch (e) {
+        console.warn('SSR bundle unavailable:', e.message);
+      }
+    }
+
+    let appHtml = '';
+    if (ssrRender) {
+      try {
+        appHtml = ssrRender(req.url);
+      } catch (e) {
+        console.warn('SSR render failed, falling back to client-only:', e.message);
+      }
+    }
+
+    const html = template
+      .replace('<!--head-tags-->', buildHeadTags(content))
+      .replace('<!--app-html-->', appHtml);
+
     res.setHeader('Content-Type', 'text/html');
     res.send(html);
   } catch (e) {

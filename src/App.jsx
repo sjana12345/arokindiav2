@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { scroller } from 'react-scroll';
 import { AuthProvider } from './context/AuthContext';
@@ -18,7 +18,8 @@ import Footer from './sections/Footer';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import Login from './pages/Login';
-import Admin from './pages/Admin';
+// Lazy-load Admin so react-quill-new (Quill) is never evaluated during SSR
+const Admin = React.lazy(() => import('./pages/Admin'));
 import './App.css';
 
 const ThemeInjector = () => {
@@ -80,7 +81,11 @@ function App() {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin" element={
+            <Suspense fallback={<div className="min-h-screen bg-black" />}>
+              <Admin />
+            </Suspense>
+          } />
         </Routes>
         <Footer />
       </div>
