@@ -1,0 +1,242 @@
+{
+  "logo": "/uploads/logo.png",
+  "logoHeight": 70,
+  "hero": {
+    "title": "Arok India ",
+    "subtitle": "Live Performances • Wedding Events • Concert Shows • Studio Production",
+    "ctaText": "Explore Our Work",
+    "videoUrl": "/assets/videos/video_preview_h264.mp4"
+  },
+  "intro": {
+    "title": "Unforgettable Live Musical Experiences",
+    "description": "We create unforgettable live musical experiences for weddings, concerts, corporate events and curated stage productions.",
+    "services": [
+      {
+        "title": "Live Performances x",
+        "description": "High-energy stage experiences for concerts and festivals.",
+        "icon": "Music2"
+      },
+      {
+        "title": "Wedding Events",
+        "description": "Elegant and memorable music for your special day.",
+        "icon": "Heart"
+      },
+      {
+        "title": "Corporate Shows",
+        "description": "Professional entertainment tailored for corporate gatherings.",
+        "icon": "Briefcase"
+      },
+      {
+        "title": "Studio Production",
+        "description": "High-quality recording and production services.",
+        "icon": "Mic2"
+      }
+    ]
+  },
+  "about": {
+    "title": "A Performance-Driven Live Music Collective",
+    "description1": "<p>We&nbsp;are&nbsp;a&nbsp;performance-driven&nbsp;live&nbsp;music&nbsp;collective&nbsp;delivering&nbsp;high-energy&nbsp;stage&nbsp;experiences&nbsp;across&nbsp;weddings,&nbsp;concerts,&nbsp;corporate&nbsp;shows&nbsp;and&nbsp;curated&nbsp;musical&nbsp;productions.</p>",
+    "description2": "<p>Our&nbsp;focus&nbsp;is&nbsp;not&nbsp;just&nbsp;performance&nbsp;—&nbsp;it&#39;s&nbsp;audience&nbsp;connection.&nbsp;We&nbsp;believe&nbsp;every&nbsp;event&nbsp;deserves&nbsp;a&nbsp;unique&nbsp;soundscape&nbsp;that&nbsp;resonates&nbsp;with&nbsp;the&nbsp;hearts&nbsp;of&nbsp;those&nbsp;present.</p>",
+    "image": "/assets/images/arokteam.jpg",
+    "stats": [
+      {
+        "label": "Years of Experience",
+        "value": "10+"
+      },
+      {
+        "label": "Events Performed",
+        "value": "500+"
+      },
+      {
+        "label": "Cities Covered",
+        "value": "50+"
+      },
+      {
+        "label": "Genres Played",
+        "value": "15+"
+      }
+    ]
+  },
+  "team": [
+    {
+      "id": 1,
+      "name": "Dip Banerjee",
+      "role": "Lead Vocalist & Guitarinst",
+      "category": "Musicians",
+      "bio": "A visionary performer with over 15 years of experience in the indie music scene. Arok’s powerful vocals and stage presence define the band’s unique sound.",
+      "image": "/assets/images/Media1.jpeg",
+      "social": {
+        "instagram": "https://instagram.com/dipbanerjeeofficial",
+        "twitter": ""
+      }
+    },
+    {
+      "id": 2,
+      "name": "Supratik Jana",
+      "role": "Guitarist & Founder",
+      "category": "Musicians",
+      "bio": "Known for her melodic solos and high-energy riffs, Sarah brings a blend of classic rock and modern blues to every live performance.",
+      "image": "/assets/images/Media3.jpeg",
+      "social": {
+        "instagram": "https://instagram.com/binarybend"
+      }
+    },
+    {
+      "id": 3,
+      "name": "Arkan",
+      "role": "Guitarist",
+      "category": "Musicians",
+      "bio": "The heartbeat of Arok India. David is a versatile percussionist who has toured internationally, mastering everything from jazz to heavy metal beats.",
+      "image": "/assets/images/Media2.jpeg",
+      "social": {
+        "instagram": "https://instagram.com/_ambivert_02"
+      }
+    },
+    {
+      "id": 4,
+      "name": "Debayan",
+      "role": "Drummer",
+      "category": "Musicians",
+      "bio": "The logistical mastermind behind our tours. Elena ensures every performance is executed flawlessly, from contract negotiations to venue coordination.",
+      "image": "/assets/images/Media4.jpeg",
+      "social": {
+        "linkedin": "#",
+        "twitter": "#"
+      }
+    },
+    {
+      "id": 5,
+      "name": "Ritwick",
+      "role": "Keyboardist",
+      "category": "Musicians",
+      "bio": "A classically trained keyboardist bringing soulful melodies and intricate harmonies to our compositions.",
+      "image": "/assets/images/Media5.jpeg",
+      "social": {
+        "instagram": "https://instagram.com/ritwick"
+      }
+    },
+    {
+      "id": 6,
+      "name": "Advertise Here",
+      "role": "Your Brand",
+      "category": "Ad",
+      "bio": "Want to showcase your brand? Contact us for advertising opportunities on our platform.",
+      "image": "https://placehold.co/1080x1350/000000/FFFFFF?text=1080+x+1350",
+      "social": {}
+    }
+  ],
+  "gigs": [
+    {
+      "date": "16 April 2026",
+      "title": "Live at 5MM",
+      "location": "Sector V, Kolkata",
+      "type": "Concert",
+      "status": "upcoming",
+      "image": "",
+      "id": 1774959082762
+    },
+    {
+      "date": "19 June 2026",
+      "title": "Sangeet",
+      "location": "Siliguri",
+      "type": "Wedding",
+      "status": "upcoming",
+      "image": "",
+      "id": 1774959394543
+    }
+  ],
+  "portfolio": [
+    {
+      "id": 1,
+      "title": "Live at Mumbai Arena",
+      "category": "Live Shows",
+      "thumbnail": "/assets/videos/video_preview_h264.mp4",
+      "videoUrl": "/assets/videos/video_preview_h264.mp4"
+    },
+    {
+      "id": 2,
+      "title": "Grand Wedding Entrance",
+      "category": "Wedding Events",
+      "thumbnail": "/assets/videos/video_preview_h264.mp4",
+      "videoUrl": "/assets/videos/video_preview_h264.mp4"
+    },
+    {
+      "id": 3,
+      "title": "Grand Wedding Entrance",
+      "category": "Wedding Events",
+      "thumbnail": "/assets/videos/video_preview_h264.mp4",
+      "videoUrl": "/assets/videos/video_preview_h264.mp4"
+    },
+    {
+      "id": 4,
+      "title": "Grand Wedding Entrance",
+      "category": "Wedding Events",
+      "thumbnail": "/assets/videos/video_preview_h264.mp4",
+      "videoUrl": "/assets/videos/video_preview_h264.mp4"
+    },
+    {
+      "id": 5,
+      "title": "Grand Wedding Entrance",
+      "category": "Wedding Events",
+      "thumbnail": "/assets/videos/video_preview_h264.mp4",
+      "videoUrl": "/assets/videos/video_preview_h264.mp4"
+    },
+    {
+      "id": 6,
+      "title": "Grand Wedding Entrance",
+      "category": "Wedding Events",
+      "thumbnail": "/assets/videos/video_preview_h264.mp4",
+      "videoUrl": "/assets/videos/video_preview_h264.mp4"
+    }
+  ],
+  "gallery": [
+    {
+      "id": 1,
+      "category": "Concerts",
+      "url": "/assets/images/Media1.jpeg",
+      "title": "Live at Arena"
+    },
+    {
+      "id": 2,
+      "category": "Wedding Events",
+      "url": "/assets/images/Media2.jpeg",
+      "title": "Elegant Wedding"
+    },
+    {
+      "id": 3,
+      "category": "Backstage",
+      "url": "/assets/images/Media3.jpeg",
+      "title": "Getting Ready"
+    },
+    {
+      "id": 4,
+      "category": "Studio Moments",
+      "url": "/assets/images/Media4.jpeg",
+      "title": "In the Booth"
+    },
+    {
+      "id": 5,
+      "category": "Studio Moments",
+      "url": "/assets/images/Media5.jpeg",
+      "title": "In the Booth"
+    },
+    {
+      "id": 6,
+      "category": "Studio Moments",
+      "url": "/assets/images/Media5.jpeg",
+      "title": "In the Booth"
+    },
+    {
+      "id": 7,
+      "category": "Studio Moments",
+      "url": "/assets/images/Media5.jpeg",
+      "title": "In the Booth"
+    },
+    {
+      "id": 8,
+      "category": "Studio Moments",
+      "url": "/assets/images/Media5.jpeg",
+      "title": "In the Booth"
+    }
+  ]
+}
