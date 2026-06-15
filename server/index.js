@@ -155,7 +155,7 @@ app.post('/api/enquiry', async (req, res) => {
 // Serve built React app
 const DIST_DIR = path.join(__dirname, '../dist');
 app.use(express.static(DIST_DIR));
-app.get('*', (_req, res) => {
+app.get('/{*path}', (_req, res) => {
   res.sendFile(path.join(DIST_DIR, 'index.html'));
 });
 
