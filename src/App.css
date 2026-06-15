@@ -1,0 +1,51 @@
+/* Custom styles can be added here */
+
+.wysiwyg-content ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.wysiwyg-content ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.wysiwyg-content a {
+  color: #a855f7;
+  text-decoration: underline;
+}
+
+.wysiwyg-content p {
+  margin-bottom: 1rem;
+}
+
+.ql-toolbar.ql-snow {
+  border-color: #3f3f46 !important;
+  background-color: #18181b;
+}
+
+.ql-container.ql-snow {
+  border-color: #3f3f46 !important;
+}
+
+.ql-editor {
+  min-height: 150px;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+}
+
+.ql-snow .ql-stroke {
+  stroke: #9ca3af !important;
+}
+
+.ql-snow .ql-fill {
+  fill: #9ca3af !important;
+}
+
+.ql-snow .ql-picker {
+  color: #9ca3af !important;
+}
