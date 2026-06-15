@@ -14,6 +14,7 @@
     "primary": "#7b0e0e",
     "secondary": "#a1456d"
   },
+  "favicon": "/uploads/favicon.png",
   "logo": "/uploads/logo.png",
   "logoHeight": 70,
   "hero": {

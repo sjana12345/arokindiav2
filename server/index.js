@@ -20,21 +20,19 @@ const UPLOADS_DIR = path.join(__dirname, 'uploads');
 
 if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR);
 
-const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => cb(null, UPLOADS_DIR),
-  filename: (_req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    cb(null, `logo${ext}`);
-  },
-});
-const upload = multer({
-  storage,
-  limits: { fileSize: 5 * 1024 * 1024 },
-  fileFilter: (_req, file, cb) => {
-    if (!file.mimetype.startsWith('image/')) return cb(new Error('Only image files allowed'));
-    cb(null, true);
-  },
-});
+const makeStorage = (baseName) =>
+  multer.diskStorage({
+    destination: (_req, _file, cb) => cb(null, UPLOADS_DIR),
+    filename: (_req, file, cb) => cb(null, `${baseName}${path.extname(file.originalname)}`),
+  });
+
+const imageFilter = (_req, file, cb) => {
+  if (!file.mimetype.startsWith('image/')) return cb(new Error('Only image files allowed'));
+  cb(null, true);
+};
+
+const upload = multer({ storage: makeStorage('logo'), limits: { fileSize: 5 * 1024 * 1024 }, fileFilter: imageFilter });
+const uploadFavicon = multer({ storage: makeStorage('favicon'), limits: { fileSize: 2 * 1024 * 1024 }, fileFilter: imageFilter });
 
 app.use(cors());
 app.use(express.json());
@@ -94,6 +92,21 @@ app.post('/api/upload/logo', authenticateToken, upload.single('logo'), (req, res
     fs.writeFile(DATA_FILE, JSON.stringify(content, null, 2), (writeErr) => {
       if (writeErr) return res.status(500).json({ message: 'Error saving logo' });
       res.json({ message: 'Logo uploaded successfully', logoUrl });
+    });
+  });
+});
+
+// Favicon Upload
+app.post('/api/upload/favicon', authenticateToken, uploadFavicon.single('favicon'), (req, res) => {
+  if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
+  const faviconUrl = `/uploads/${req.file.filename}`;
+  fs.readFile(DATA_FILE, 'utf8', (err, data) => {
+    if (err) return res.status(500).json({ message: 'Error reading data' });
+    const content = JSON.parse(data);
+    content.favicon = faviconUrl;
+    fs.writeFile(DATA_FILE, JSON.stringify(content, null, 2), (writeErr) => {
+      if (writeErr) return res.status(500).json({ message: 'Error saving favicon' });
+      res.json({ message: 'Favicon uploaded successfully', faviconUrl });
     });
   });
 });

@@ -22,6 +22,8 @@ const Admin = () => {
   const [newGallery, setNewGallery] = useState({ category: 'Concerts', url: '', title: '' });
   const [logoFile, setLogoFile] = useState(null);
   const [logoPreview, setLogoPreview] = useState('');
+  const [faviconFile, setFaviconFile] = useState(null);
+  const [faviconPreview, setFaviconPreview] = useState('');
   const [sitemapXml, setSitemapXml] = useState('');
   const [copied, setCopied] = useState('');
 
@@ -185,6 +187,56 @@ const Admin = () => {
       setFormData(updated);
       setLogoPreview('');
       setStatus({ type: 'success', message: 'Logo removed!' });
+      setTimeout(() => setStatus({ type: '', message: '' }), 3000);
+    } else {
+      setStatus({ type: 'error', message: result.message });
+    }
+  };
+
+  const handleFaviconFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setFaviconFile(file);
+    setFaviconPreview(URL.createObjectURL(file));
+  };
+
+  const handleFaviconUpload = async () => {
+    if (!faviconFile) {
+      setStatus({ type: 'error', message: 'Please select a favicon file' });
+      return;
+    }
+    setStatus({ type: 'loading', message: 'Uploading favicon...' });
+    const fd = new FormData();
+    fd.append('favicon', faviconFile);
+    try {
+      const res = await fetch('/api/upload/favicon', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: fd,
+      });
+      const result = await res.json();
+      if (res.ok) {
+        setFormData(prev => ({ ...prev, favicon: result.faviconUrl }));
+        setFaviconFile(null);
+        setFaviconPreview('');
+        setStatus({ type: 'success', message: 'Favicon uploaded successfully!' });
+        setTimeout(() => setStatus({ type: '', message: '' }), 3000);
+      } else {
+        setStatus({ type: 'error', message: result.message });
+      }
+    } catch {
+      setStatus({ type: 'error', message: 'Upload failed' });
+    }
+  };
+
+  const handleFaviconRemove = async () => {
+    setStatus({ type: 'loading', message: 'Removing favicon...' });
+    const updated = { ...formData, favicon: '' };
+    const result = await updateContent(updated, token);
+    if (result.success) {
+      setFormData(updated);
+      setFaviconPreview('');
+      setStatus({ type: 'success', message: 'Favicon removed — site will use default.' });
       setTimeout(() => setStatus({ type: '', message: '' }), 3000);
     } else {
       setStatus({ type: 'error', message: result.message });
@@ -643,6 +695,64 @@ const Admin = () => {
                         )}
                       >
                         <ImageIcon size={18} /> Upload Logo
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Favicon */}
+                  <div className="space-y-4">
+                    <label className="text-xs font-bold text-gray-500 uppercase tracking-widest block">Favicon</label>
+                    <div className="p-6 bg-black rounded-2xl border border-zinc-800 space-y-4">
+                      <p className="text-xs text-gray-500">PNG, ICO, SVG or WEBP · Max 2 MB · Recommended: square image, 32×32 or 512×512 px</p>
+
+                      {/* Current favicon */}
+                      {(faviconPreview || formData.favicon) ? (
+                        <div className="flex items-center gap-4 p-4 bg-zinc-900 rounded-xl border border-zinc-800">
+                          <img
+                            src={faviconPreview || formData.favicon}
+                            alt="Favicon"
+                            className="w-10 h-10 object-contain rounded"
+                          />
+                          <div className="flex-1">
+                            <p className="text-sm text-gray-400">{faviconPreview ? 'Preview (not yet uploaded)' : 'Active favicon'}</p>
+                          </div>
+                          {!faviconPreview && (
+                            <button onClick={handleFaviconRemove} className="text-red-500 hover:text-red-400 text-sm font-bold">
+                              Remove
+                            </button>
+                          )}
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-3 p-4 bg-zinc-900 rounded-xl border border-zinc-800 text-gray-500 text-sm">
+                          <div className="w-10 h-10 rounded bg-zinc-700 flex items-center justify-center text-xs text-gray-500">ico</div>
+                          No favicon uploaded — browser uses default favicon.svg
+                        </div>
+                      )}
+
+                      {/* Upload */}
+                      <label className="flex items-center gap-3 w-full cursor-pointer border-2 border-dashed border-zinc-700 hover:border-purple-500 rounded-xl px-6 py-6 transition-colors">
+                        <ImageIcon size={20} className="text-purple-500 shrink-0" />
+                        <span className="text-gray-400 text-sm">
+                          {faviconFile ? faviconFile.name : 'Click to select favicon image'}
+                        </span>
+                        <input
+                          type="file"
+                          accept="image/*,.ico"
+                          className="hidden"
+                          onChange={handleFaviconFileChange}
+                        />
+                      </label>
+                      <button
+                        onClick={handleFaviconUpload}
+                        disabled={!faviconFile}
+                        className={cn(
+                          'flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all',
+                          faviconFile
+                            ? 'bg-purple-600 hover:bg-purple-700 text-white'
+                            : 'bg-zinc-800 text-gray-600 cursor-not-allowed'
+                        )}
+                      >
+                        <ImageIcon size={18} /> Upload Favicon
                       </button>
                     </div>
                   </div>

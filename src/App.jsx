@@ -26,6 +26,16 @@ const ThemeInjector = () => {
   useEffect(() => {
     if (content?.colors) applyTheme(content.colors);
     if (content?.seo) applySeo(content.seo);
+    if (content?.favicon) {
+      let link = document.querySelector('link[rel="icon"]');
+      if (!link) {
+        link = document.createElement('link');
+        link.setAttribute('rel', 'icon');
+        document.head.appendChild(link);
+      }
+      link.setAttribute('href', content.favicon);
+      link.removeAttribute('type');
+    }
   }, [content]);
   return null;
 };
