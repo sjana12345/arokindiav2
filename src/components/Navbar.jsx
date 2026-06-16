@@ -70,6 +70,7 @@ const Navbar = () => {
               <ScrollLink
                 key={link.to}
                 to={link.to}
+                href={`#${link.to}`}
                 smooth={true}
                 duration={500}
                 spy={true}
@@ -121,6 +122,7 @@ const Navbar = () => {
               <ScrollLink
                 key={link.to}
                 to={link.to}
+                href={`#${link.to}`}
                 smooth={true}
                 duration={500}
                 onClick={() => setIsOpen(false)}

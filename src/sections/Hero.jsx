@@ -64,6 +64,7 @@ const Hero = () => {
         >
           <Link
             to="intro"
+            href="#intro"
             smooth={true}
             duration={500}
             offset={-70}

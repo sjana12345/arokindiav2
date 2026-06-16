@@ -8,7 +8,7 @@
     "ogImage": "",
     "twitterHandle": "",
     "canonicalUrl": "https://arokindia.net",
-    "robotsTxt": "User-agent: *\nDisallow: /",
+    "robotsTxt": "User-agent: *\nAllow: /",
     "googleVerification": "EVcE3LgbMoFLefnQhe4TPg3SO35cpjonLHEIU",
     "bingVerification": "",
     "googleAnalyticsId": "",
