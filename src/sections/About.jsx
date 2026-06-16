@@ -2,6 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useContent } from '../hooks/useContent';
 
+const sanitizeHtml = (html) => (html || '').replace(/&nbsp;/g, ' ');
+
 const About = () => {
   const { content } = useContent();
   const aboutData = content?.about || {
@@ -51,12 +53,22 @@ const About = () => {
             className="flex flex-col justify-center"
           >
             <h2 className="text-3xl md:text-5xl font-bold text-white mb-8">
-              {aboutData.title.split('Live Music Collective')[0]}
-              <span className="text-purple-500">Live Music Collective</span>
+              {(() => {
+                const highlight = 'Live Music Collective';
+                const idx = aboutData.title.indexOf(highlight);
+                if (idx === -1) return aboutData.title;
+                return (
+                  <>
+                    {aboutData.title.slice(0, idx)}
+                    <span className="text-purple-500">{highlight}</span>
+                    {aboutData.title.slice(idx + highlight.length)}
+                  </>
+                );
+              })()}
             </h2>
             <div className="space-y-6 text-gray-400 text-lg leading-relaxed wysiwyg-content">
-              <div dangerouslySetInnerHTML={{ __html: aboutData.description1 }} />
-              <div dangerouslySetInnerHTML={{ __html: aboutData.description2 }} />
+              <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(aboutData.description1) }} />
+              <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(aboutData.description2) }} />
             </div>
 
             {/* Stats Row */}

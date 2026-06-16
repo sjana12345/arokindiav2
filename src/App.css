@@ -21,6 +21,8 @@
 
 .wysiwyg-content p {
   margin-bottom: 1rem;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .ql-toolbar.ql-snow {
