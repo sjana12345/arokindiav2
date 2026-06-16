@@ -223,8 +223,14 @@ app.get('/sitemap.xml', (req, res) => {
     const today = new Date().toISOString().split('T')[0];
 
     const staticRoutes = [
-      { path: '/', changefreq: 'weekly', priority: '1.0' },
-      { path: '/privacy-policy', changefreq: 'yearly', priority: '0.3' },
+      { path: '/',            changefreq: 'weekly',  priority: '1.0' },
+      { path: '/about',       changefreq: 'monthly', priority: '0.8' },
+      { path: '/team',        changefreq: 'monthly', priority: '0.8' },
+      { path: '/gigs',        changefreq: 'weekly',  priority: '0.9' },
+      { path: '/portfolio',   changefreq: 'monthly', priority: '0.8' },
+      { path: '/gallery',     changefreq: 'monthly', priority: '0.7' },
+      { path: '/contact',     changefreq: 'yearly',  priority: '0.7' },
+      { path: '/privacy-policy',   changefreq: 'yearly', priority: '0.3' },
       { path: '/terms-of-service', changefreq: 'yearly', priority: '0.3' },
     ];
 

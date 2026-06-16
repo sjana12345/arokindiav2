@@ -1,10 +1,10 @@
 {
   "seo": {
-    "title": "AROK INDIA | Performance Band Portfolio",
-    "description": "Arok India is a performance-driven live music collective delivering high-energy stage experiences across weddings, concerts, corporate shows and curated musical productions.",
-    "keywords": "Arok India, live band, wedding music, concert band, corporate events, live performances, Kolkata band",
-    "ogTitle": "AROK INDIA | Live Music Band for Weddings, Concerts & Corporate Events",
-    "ogDescription": "AROK INDIA delivers high-energy live music performances for weddings, concerts, corporate events, and curated musical productions across India.",
+    "title": "AROK INDIA - Official Website",
+    "description": "The official website of Arok India, a Bengali alternative progressive rock band blending Indian influences with modern rock. Explore music, videos, live shows, and the upcoming single \"Chayapoth\" releasing June 21, 2026.",
+    "keywords": "Arok India, Arok India Band, Chayapoth, Bengali Rock Band, Alternative Progressive Rock, Indian Rock Band, Bengali Progressive Rock, Bengali Music Band, New Bengali Song 2026, Independent Bengali Band",
+    "ogTitle": "AROK INDIA - Official Website",
+    "ogDescription": "The official website of Arok India, a Bengali alternative progressive rock band blending Indian influences with modern rock. Explore music, videos, live shows, and the upcoming single \"Chayapoth\" releasing June 21, 2026.",
     "ogImage": "https://res.cloudinary.com/drwuembvg/image/upload/v1781609711/Black_And_White_Modern_Vintage_Retro_Brand_Logo_2_mcetu3.png",
     "ogImageWidth": "1200",
     "ogImageHeight": "630",
@@ -15,8 +15,8 @@
     "twitterCard": "summary_large_image",
     "twitterHandle": "@arokindia",
     "twitterCreator": "@arokindia",
-    "twitterTitle": "AROK INDIA | Live Music Band for Weddings, Concerts & Corporate Events",
-    "twitterDescription": "Arok India delivers high-energy live music performances for weddings, concerts, corporate events, and curated musical productions across India.",
+    "twitterTitle": "AROK INDIA - Official Website",
+    "twitterDescription": "The official website of Arok India, a Bengali alternative progressive rock band blending Indian influences with modern rock. Explore music, videos, live shows, and the upcoming single \"Chayapoth\" releasing June 21, 2026.",
     "twitterImage": "https://res.cloudinary.com/drwuembvg/image/upload/v1781609711/Black_And_White_Modern_Vintage_Retro_Brand_Logo_2_mcetu3.png",
     "canonicalUrl": "https://arokindia.net",
     "robotsTxt": "User-agent: *\nAllow: /",
@@ -24,8 +24,37 @@
     "bingVerification": "",
     "googleAnalyticsId": "",
     "googleTagManagerId": "",
-    "structuredData": "{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"MusicGroup\",\n  \"name\": \"AROK INDIA\",\n  \"url\": \"https://arokindia.net\",\n  \"genre\": [\"Live Music\", \"Wedding Band\", \"Corporate Events\"],\n  \"foundingLocation\": {\n    \"@type\": \"Place\",\n    \"name\": \"Kolkata, India\"\n  }\n}",
-    "backlinks": []
+    "structuredData": "{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"MusicGroup\",\n  \"@id\": \"https://arokindia.com/#musicgroup\",\n  \"name\": \"Arok India\",\n  \"alternateName\": \"Arok\",\n  \"url\": \"https://arokindia.com\",\n  \"description\": \"Arok India is a Bengali alternative progressive rock band from India, blending progressive rock, alternative rock, and Indian musical influences.\",\n  \"genre\": [\n    \"Alternative Rock\",\n    \"Progressive Rock\",\n    \"Bengali Rock\",\n    \"Indian Rock\"\n  ],\n  \"foundingDate\": \"2011\",\n  \"sameAs\": [\n    \"https://www.instagram.com/arok.india/\",\n    \"https://www.facebook.com/officialsarok/\",\n    \"https://www.youtube.com/@ArokIndia\"\n  ],\n  \"member\": [\n    {\n      \"@type\": \"Person\",\n      \"name\": \"Dip Banerjee\",\n      \"jobTitle\": \"Vocalist\"\n    },\n    {\n      \"@type\": \"Person\",\n      \"name\": \"Supratik Jana\",\n      \"jobTitle\": \"Guitarist\"\n    },\n    {\n      \"@type\": \"Person\",\n      \"name\": \"Arkan Dutta\",\n      \"jobTitle\": \"Guitarist\"\n    },\n    {\n      \"@type\": \"Person\",\n      \"name\": \"Debayan Ray\",\n      \"jobTitle\": \"Drummer\"\n    },\n    {\n      \"@type\": \"Person\",\n      \"name\": \"Sudipta Basak\",\n      \"jobTitle\": \"Bassist\"\n    }\n  ]\n}",
+    "backlinks": [
+      {
+        "title": "Instagram",
+        "url": "https://www.instagram.com/arok.india/",
+        "notes": "",
+        "id": 1781633179786,
+        "addedDate": "2026-06-16"
+      },
+      {
+        "title": "Facebook",
+        "url": "https://www.facebook.com/officialsarok/",
+        "notes": "",
+        "id": 1781633193819,
+        "addedDate": "2026-06-16"
+      },
+      {
+        "title": "Youtube",
+        "url": "https://www.youtube.com/@ArokIndia",
+        "notes": "",
+        "id": 1781633211719,
+        "addedDate": "2026-06-16"
+      },
+      {
+        "title": "Supratik",
+        "url": "https://www.instagram.com/binarybend/",
+        "notes": "",
+        "id": 1781633251718,
+        "addedDate": "2026-06-16"
+      }
+    ]
   },
   "colors": {
     "primary": "#7b0e0e",
@@ -94,9 +123,9 @@
     {
       "id": 1,
       "name": "Dip Banerjee",
-      "role": "Lead Vocalist & Guitarinst",
+      "role": "Lead Vocalist & Guitarist",
       "category": "Musicians",
-      "bio": "A visionary performer with over 15 years of experience in the indie music scene. Arok’s powerful vocals and stage presence define the band’s unique sound.",
+      "bio": "The voice and lyrical soul of Arok India, blending emotion and storytelling into every performance. His distinctive vocals shape the band's progressive and alternative rock identity.",
       "image": "/assets/images/Media1.jpeg",
       "social": {
         "instagram": "https://instagram.com/dipbanerjeeofficial",
@@ -108,7 +137,7 @@
       "name": "Supratik Jana",
       "role": "Guitarist & Founder",
       "category": "Musicians",
-      "bio": "Known for her melodic solos and high-energy riffs, Sarah brings a blend of classic rock and modern blues to every live performance.",
+      "bio": "A versatile guitarist and technical mind behind the band, crafting immersive soundscapes and powerful riffs that define Arok India's signature sound.",
       "image": "/assets/images/Media3.jpeg",
       "social": {
         "instagram": "https://instagram.com/binarybend"
@@ -119,10 +148,10 @@
       "name": "Arkan",
       "role": "Guitarist",
       "category": "Musicians",
-      "bio": "The heartbeat of Arok India. David is a versatile percussionist who has toured internationally, mastering everything from jazz to heavy metal beats.",
+      "bio": "A dynamic guitarist known for expressive melodies and energetic stage presence, adding depth and texture to the band's musical journey.",
       "image": "/assets/images/Media2.jpeg",
       "social": {
-        "instagram": "https://instagram.com/_ambivert_02"
+        "instagram": "https://www.instagram.com/_ambivert_02/"
       }
     },
     {
@@ -130,11 +159,12 @@
       "name": "Debayan",
       "role": "Drummer",
       "category": "Musicians",
-      "bio": "The logistical mastermind behind our tours. Elena ensures every performance is executed flawlessly, from contract negotiations to venue coordination.",
+      "bio": "The rhythmic backbone of Arok India, driving every song with precision, power, and creative percussion arrangements.",
       "image": "/assets/images/Media4.jpeg",
       "social": {
-        "linkedin": "#",
-        "twitter": "#"
+        "linkedin": "",
+        "twitter": "#",
+        "instagram": "https://www.instagram.com/percs_by_deb/"
       }
     },
     {
@@ -142,10 +172,10 @@
       "name": "Sudipta",
       "role": "Bassist",
       "category": "Musicians",
-      "bio": "A classically trained keyboardist bringing soulful melodies and intricate harmonies to our compositions.",
+      "bio": "Providing the groove and foundation of the band's sound, his bass lines seamlessly connect rhythm and melody, enriching every composition.",
       "image": "/assets/images/Media5.jpeg",
       "social": {
-        "instagram": "https://instagram.com/ritwick"
+        "instagram": "https://www.instagram.com/basak4sudipto/"
       }
     },
     {

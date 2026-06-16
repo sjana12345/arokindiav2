@@ -41,20 +41,26 @@ const ThemeInjector = () => {
   return null;
 };
 
+const SECTION_PATHS = {
+  '/about': 'about',
+  '/team': 'team',
+  '/gigs': 'gigs',
+  '/portfolio': 'portfolio',
+  '/gallery': 'gallery',
+  '/contact': 'contact',
+};
+
 const Home = () => {
   const location = useLocation();
+  const scrollTarget = location.state?.scrollTo || SECTION_PATHS[location.pathname];
 
   useEffect(() => {
-    if (location.state && location.state.scrollTo) {
+    if (scrollTarget) {
       setTimeout(() => {
-        scroller.scrollTo(location.state.scrollTo, {
-          duration: 500,
-          smooth: true,
-          offset: -70,
-        });
+        scroller.scrollTo(scrollTarget, { duration: 500, smooth: true, offset: -70 });
       }, 100);
     }
-  }, [location]);
+  }, [scrollTarget]);
 
   return (
     <main>
@@ -78,6 +84,12 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/about" element={<Home />} />
+          <Route path="/team" element={<Home />} />
+          <Route path="/gigs" element={<Home />} />
+          <Route path="/portfolio" element={<Home />} />
+          <Route path="/gallery" element={<Home />} />
+          <Route path="/contact" element={<Home />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/login" element={<Login />} />

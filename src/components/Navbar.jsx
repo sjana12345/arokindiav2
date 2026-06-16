@@ -22,7 +22,8 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { content } = useContent();
 
-  const isHome = location.pathname === '/';
+  const HOME_PATHS = new Set(['/', '/about', '/team', '/gigs', '/portfolio', '/gallery', '/contact']);
+  const isHome = HOME_PATHS.has(location.pathname);
 
   useEffect(() => {
     const handleScroll = () => {
