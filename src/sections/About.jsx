@@ -32,6 +32,10 @@ const About = () => {
             <img
               src={aboutData.image}
               alt="Band performing"
+              width="800"
+              height="450"
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-purple-600/10 group-hover:bg-transparent transition-colors duration-500" />
