@@ -65,13 +65,13 @@
   },
   "favicon": "",
   "logo": "/uploads/logo.png",
-  "logoHeight": 120,
+  "logoHeight": 79,
   "logoAlt": "Arok India Logo",
   "logoTitle": "Arok India Logo",
   "hero": {
     "title": "",
     "subtitle": "",
-    "ctaText": "",
+    "ctaText": "Explore",
     "videoUrl": "https://res.cloudinary.com/ddr7sd1rm/video/upload/v1781636880/5MM_SHOWREEL_Low_Quality_igthzs.mp4"
   },
   "release": {
@@ -206,17 +206,6 @@
       "social": {
         "instagram": "https://www.instagram.com/basak4sudipto/"
       }
-    },
-    {
-      "id": 6,
-      "name": "Chayapoth - Releasing on 21st June 2026",
-      "role": "Arok India - New Single",
-      "category": "Ad",
-      "bio": "Want to showcase your brand? Contact us for advertising opportunities on our platform.",
-      "image": "https://res.cloudinary.com/ddr7sd1rm/image/upload/v1781638315/CHAYAPOTH_final_1.jpg_1_1_x9vwga.jpg",
-      "imageAlt": "Chayapoth - New Single by Arok India releasing 21st June 2026",
-      "imageTitle": "Chayapoth by Arok India",
-      "social": {}
     },
     {
       "name": "Sritama Deb",
