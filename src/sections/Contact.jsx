@@ -66,7 +66,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <h4 className="text-white font-bold mb-1">WhatsApp Us</h4>
-                  <p className="text-gray-400">+91 98765 43210</p>
+                  <p className="text-gray-400">+91 7439316942</p>
                 </div>
               </div>
 
@@ -76,7 +76,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <h4 className="text-white font-bold mb-1">Email Inquiry</h4>
-                  <p className="text-gray-400">bookings@arokindia.com</p>
+                  <p className="text-gray-400">arok.muzik@gmail.com</p>
                 </div>
               </div>
 
