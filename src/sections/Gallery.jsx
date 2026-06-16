@@ -72,7 +72,8 @@ const Gallery = () => {
               >
                 <img
                   src={img.url}
-                  alt={img.title}
+                  alt={img.imageAlt || img.title}
+                  title={img.imageTitle || img.title}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   loading="lazy"
                 />
@@ -131,7 +132,8 @@ const Gallery = () => {
             >
               <img
                 src={filteredImages[selectedImageIndex].url}
-                alt={filteredImages[selectedImageIndex].title}
+                alt={filteredImages[selectedImageIndex].imageAlt || filteredImages[selectedImageIndex].title}
+                title={filteredImages[selectedImageIndex].imageTitle || filteredImages[selectedImageIndex].title}
                 className="w-full h-full object-contain"
               />
               <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black/80 to-transparent">

@@ -53,7 +53,8 @@ const Navbar = () => {
           {content?.logo ? (
             <img
               src={content.logo}
-              alt="Arok India"
+              alt={content.logoAlt || 'Arok India'}
+              title={content.logoTitle || undefined}
               style={{ height: (content.logoHeight || 40) + 'px' }}
               className="w-auto object-contain"
             />

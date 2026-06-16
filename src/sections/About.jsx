@@ -31,7 +31,8 @@ const About = () => {
           >
             <img
               src={aboutData.image}
-              alt="Band performing"
+              alt={aboutData.imageAlt || 'Band performing'}
+              title={aboutData.imageTitle || undefined}
               width="800"
               height="450"
               loading="lazy"

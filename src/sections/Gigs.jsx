@@ -57,7 +57,8 @@ const Gigs = () => {
                 <div className="w-full md:w-48 h-48 flex-shrink-0 overflow-hidden">
                   <img
                     src={gig.image}
-                    alt={gig.title}
+                    alt={gig.imageAlt || gig.title}
+                    title={gig.imageTitle || gig.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                 </div>

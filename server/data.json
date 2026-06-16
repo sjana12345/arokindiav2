@@ -20,6 +20,9 @@
     "twitterImage": "https://res.cloudinary.com/drwuembvg/image/upload/v1781609711/Black_And_White_Modern_Vintage_Retro_Brand_Logo_2_mcetu3.png",
     "canonicalUrl": "https://arokindia.net",
     "robotsTxt": "User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /login\n\nSitemap: https://arokindia.net/sitemap.xml",
+    "metaRobots": "index, follow",
+    "author": "Arok India",
+    "publisher": "Arok India",
     "googleVerification": "EVcE3LgbMoFLefnQhe4TPg3SO35cpjonLHEIU",
     "bingVerification": "85C0724B980C4080E23F8AF31C349C3F",
     "googleAnalyticsId": "",
@@ -63,11 +66,25 @@
   "favicon": "",
   "logo": "/uploads/logo.png",
   "logoHeight": 120,
+  "logoAlt": "Arok India Logo",
+  "logoTitle": "Arok India Logo",
   "hero": {
-    "title": "Arok India ",
-    "subtitle": "Live Performances • Wedding Events • Concert Shows • Studio Production",
-    "ctaText": "Explore Our Work",
-    "videoUrl": "/assets/videos/video_preview_h264.mp4"
+    "title": "",
+    "subtitle": "",
+    "ctaText": "",
+    "videoUrl": "https://res.cloudinary.com/ddr7sd1rm/video/upload/v1781636880/5MM_SHOWREEL_Low_Quality_igthzs.mp4"
+  },
+  "release": {
+    "enabled": true,
+    "title": "Chayapoth",
+    "subtitle": "New Single",
+    "description": "A sonic journey through shadow and light — our upcoming single blends Bengali lyrical poetry with alternative progressive rock in ways you've never heard before.",
+    "releaseDate": "2026-06-21T19:30:00",
+    "albumArt": "https://res.cloudinary.com/ddr7sd1rm/image/upload/v1781638315/CHAYAPOTH_final_1.jpg_1_1_x9vwga.jpg",
+    "albumArtAlt": "Chayapoth - New Single by Arok India",
+    "albumArtTitle": "Chayapoth by Arok India",
+    "buttonLabel": "Buy / Stream",
+    "buttonUrl": "https://distrokid.com/hyperfollow/arokindia/chayapoth"
   },
   "intro": {
     "title": "Unforgettable Live Musical Experiences",
@@ -100,6 +117,8 @@
     "description1": "<p>We&nbsp;are&nbsp;a&nbsp;performance-driven&nbsp;live&nbsp;music&nbsp;collective&nbsp;delivering&nbsp;high-energy&nbsp;stage&nbsp;experiences&nbsp;across&nbsp;weddings,&nbsp;concerts,&nbsp;corporate&nbsp;shows&nbsp;and&nbsp;curated&nbsp;musical&nbsp;productions.</p>",
     "description2": "<p>Our&nbsp;focus&nbsp;is&nbsp;not&nbsp;just&nbsp;performance&nbsp;—&nbsp;it&#39;s&nbsp;audience&nbsp;connection.&nbsp;We&nbsp;believe&nbsp;every&nbsp;event&nbsp;deserves&nbsp;a&nbsp;unique&nbsp;soundscape&nbsp;that&nbsp;resonates&nbsp;with&nbsp;the&nbsp;hearts&nbsp;of&nbsp;those&nbsp;present.</p>",
     "image": "/assets/images/arokteam.jpg",
+    "imageAlt": "Arok India band performing live",
+    "imageTitle": "Arok India - Live Performance",
     "stats": [
       {
         "label": "Years of Experience",
@@ -126,7 +145,9 @@
       "role": "Lead Vocalist & Guitarist",
       "category": "Musicians",
       "bio": "The voice and lyrical soul of Arok India, blending emotion and storytelling into every performance. His distinctive vocals shape the band's progressive and alternative rock identity.",
-      "image": "/assets/images/Media1.jpeg",
+      "image": "https://res.cloudinary.com/ddr7sd1rm/image/upload/v1781638032/DSC02683_sxobh4.jpg",
+      "imageAlt": "Dip Banerjee - Lead Vocalist & Guitarist of Arok India",
+      "imageTitle": "Dip Banerjee",
       "social": {
         "instagram": "https://instagram.com/dipbanerjeeofficial",
         "twitter": ""
@@ -138,7 +159,9 @@
       "role": "Guitarist & Founder",
       "category": "Musicians",
       "bio": "A versatile guitarist and technical mind behind the band, crafting immersive soundscapes and powerful riffs that define Arok India's signature sound.",
-      "image": "/assets/images/Media3.jpeg",
+      "image": "https://res.cloudinary.com/ddr7sd1rm/image/upload/v1781638029/DSC02761_wjd4rm.jpg",
+      "imageAlt": "Supratik Jana - Guitarist & Founder of Arok India",
+      "imageTitle": "Supratik Jana",
       "social": {
         "instagram": "https://instagram.com/binarybend"
       }
@@ -149,7 +172,9 @@
       "role": "Guitarist",
       "category": "Musicians",
       "bio": "A dynamic guitarist known for expressive melodies and energetic stage presence, adding depth and texture to the band's musical journey.",
-      "image": "/assets/images/Media2.jpeg",
+      "image": "https://res.cloudinary.com/ddr7sd1rm/image/upload/v1781638478/DSC05725_pdddfd.jpg",
+      "imageAlt": "Arkan - Guitarist of Arok India",
+      "imageTitle": "Arkan",
       "social": {
         "instagram": "https://www.instagram.com/_ambivert_02/"
       }
@@ -160,7 +185,9 @@
       "role": "Drummer",
       "category": "Musicians",
       "bio": "The rhythmic backbone of Arok India, driving every song with precision, power, and creative percussion arrangements.",
-      "image": "/assets/images/Media4.jpeg",
+      "image": "https://res.cloudinary.com/ddr7sd1rm/image/upload/v1781638028/DSC02746-Edit_he44vz.jpg",
+      "imageAlt": "Debayan - Drummer of Arok India",
+      "imageTitle": "Debayan",
       "social": {
         "linkedin": "",
         "twitter": "#",
@@ -173,7 +200,9 @@
       "role": "Bassist",
       "category": "Musicians",
       "bio": "Providing the groove and foundation of the band's sound, his bass lines seamlessly connect rhythm and melody, enriching every composition.",
-      "image": "/assets/images/Media5.jpeg",
+      "image": "https://res.cloudinary.com/ddr7sd1rm/image/upload/v1781638031/DSC02651_rwrmqs.jpg",
+      "imageAlt": "Sudipta - Bassist of Arok India",
+      "imageTitle": "Sudipta",
       "social": {
         "instagram": "https://www.instagram.com/basak4sudipto/"
       }
@@ -182,9 +211,11 @@
       "id": 6,
       "name": "Chayapoth - Releasing on 21st June 2026",
       "role": "Arok India - New Single",
-      "category": "Ad",
+      "category": "Crew",
       "bio": "Want to showcase your brand? Contact us for advertising opportunities on our platform.",
-      "image": "https://placehold.co/1080x1350/000000/FFFFFF?text=1080+x+1350",
+      "image": "https://res.cloudinary.com/ddr7sd1rm/image/upload/v1781638315/CHAYAPOTH_final_1.jpg_1_1_x9vwga.jpg",
+      "imageAlt": "Chayapoth - New Single by Arok India releasing 21st June 2026",
+      "imageTitle": "Chayapoth by Arok India",
       "social": {}
     }
   ],
@@ -194,112 +225,24 @@
       "title": "Live at 5MM",
       "location": "Sector V, Kolkata",
       "type": "Concert",
-      "status": "upcoming",
-      "image": "",
+      "status": "past",
+      "image": "https://res.cloudinary.com/ddr7sd1rm/image/upload/v1781637429/DSC08172_uiimvd.jpg",
+      "imageAlt": "Arok India Live at 5MM - Sector V Kolkata April 2026",
+      "imageTitle": "Live at 5MM",
       "id": 1774959082762
     },
     {
-      "date": "19 June 2026",
-      "title": "Sangeet",
-      "location": "Siliguri",
-      "type": "Wedding",
-      "status": "upcoming",
-      "image": "",
+      "date": "20 DECEMBER 2025",
+      "title": "TALENTHUNT",
+      "location": "DURGAPUR",
+      "type": "Concert",
+      "status": "past",
+      "image": "https://res.cloudinary.com/ddr7sd1rm/image/upload/v1781637660/DSC02638_btpkan.jpg",
+      "imageAlt": "Arok India at TalentHunt Concert - Durgapur December 2025",
+      "imageTitle": "TalentHunt",
       "id": 1774959394543
     }
   ],
-  "portfolio": [
-    {
-      "id": 1,
-      "title": "Live at Mumbai Arena",
-      "category": "Live Shows",
-      "thumbnail": "/assets/videos/video_preview_h264.mp4",
-      "videoUrl": "/assets/videos/video_preview_h264.mp4"
-    },
-    {
-      "id": 2,
-      "title": "Grand Wedding Entrance",
-      "category": "Wedding Events",
-      "thumbnail": "/assets/videos/video_preview_h264.mp4",
-      "videoUrl": "/assets/videos/video_preview_h264.mp4"
-    },
-    {
-      "id": 3,
-      "title": "Grand Wedding Entrance",
-      "category": "Wedding Events",
-      "thumbnail": "/assets/videos/video_preview_h264.mp4",
-      "videoUrl": "/assets/videos/video_preview_h264.mp4"
-    },
-    {
-      "id": 4,
-      "title": "Grand Wedding Entrance",
-      "category": "Wedding Events",
-      "thumbnail": "/assets/videos/video_preview_h264.mp4",
-      "videoUrl": "/assets/videos/video_preview_h264.mp4"
-    },
-    {
-      "id": 5,
-      "title": "Grand Wedding Entrance",
-      "category": "Wedding Events",
-      "thumbnail": "/assets/videos/video_preview_h264.mp4",
-      "videoUrl": "/assets/videos/video_preview_h264.mp4"
-    },
-    {
-      "id": 6,
-      "title": "Grand Wedding Entrance",
-      "category": "Wedding Events",
-      "thumbnail": "/assets/videos/video_preview_h264.mp4",
-      "videoUrl": "/assets/videos/video_preview_h264.mp4"
-    }
-  ],
-  "gallery": [
-    {
-      "id": 1,
-      "category": "Concerts",
-      "url": "/assets/images/Media1.jpeg",
-      "title": "Live at Arena"
-    },
-    {
-      "id": 2,
-      "category": "Wedding Events",
-      "url": "/assets/images/Media2.jpeg",
-      "title": "Elegant Wedding"
-    },
-    {
-      "id": 3,
-      "category": "Backstage",
-      "url": "/assets/images/Media3.jpeg",
-      "title": "Getting Ready"
-    },
-    {
-      "id": 4,
-      "category": "Studio Moments",
-      "url": "/assets/images/Media4.jpeg",
-      "title": "In the Booth"
-    },
-    {
-      "id": 5,
-      "category": "Studio Moments",
-      "url": "/assets/images/Media5.jpeg",
-      "title": "In the Booth"
-    },
-    {
-      "id": 6,
-      "category": "Studio Moments",
-      "url": "/assets/images/Media5.jpeg",
-      "title": "In the Booth"
-    },
-    {
-      "id": 7,
-      "category": "Studio Moments",
-      "url": "/assets/images/Media5.jpeg",
-      "title": "In the Booth"
-    },
-    {
-      "id": 8,
-      "category": "Studio Moments",
-      "url": "/assets/images/Media5.jpeg",
-      "title": "In the Booth"
-    }
-  ]
+  "portfolio": [],
+  "gallery": []
 }

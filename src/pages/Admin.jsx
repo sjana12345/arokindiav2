@@ -5,7 +5,7 @@ import 'react-quill-new/dist/quill.snow.css';
 import { useAuth } from '../context/AuthContext';
 import { useContent } from '../hooks/useContent';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LogOut, Save, Image as ImageIcon, Layout, Users, Calendar, Video, Grid, CheckCircle2, AlertCircle, Palette, Search } from 'lucide-react';
+import { LogOut, Save, Image as ImageIcon, Layout, Users, Calendar, Video, Grid, CheckCircle2, AlertCircle, Palette, Search, Disc } from 'lucide-react';
 import { ICON_MAP } from '../sections/Intro';
 import { cn } from '../utils/cn';
 import { applyTheme } from '../utils/colorUtils';
@@ -17,9 +17,9 @@ const Admin = () => {
   const [activeTab, setActiveTab] = useState('seo');
   const [formData, setFormData] = useState(null);
   const [status, setStatus] = useState({ type: '', message: '' });
-  const [newGig, setNewGig] = useState({ date: '', title: '', location: '', type: 'Wedding', status: 'upcoming', image: '' });
+  const [newGig, setNewGig] = useState({ date: '', title: '', location: '', type: 'Wedding', status: 'upcoming', image: '', imageAlt: '', imageTitle: '' });
   const [newPortfolio, setNewPortfolio] = useState({ title: '', category: 'Live Shows', thumbnail: '', videoUrl: '' });
-  const [newGallery, setNewGallery] = useState({ category: 'Concerts', url: '', title: '' });
+  const [newGallery, setNewGallery] = useState({ category: 'Concerts', url: '', title: '', imageAlt: '', imageTitle: '' });
   const [logoFile, setLogoFile] = useState(null);
   const [logoPreview, setLogoPreview] = useState('');
   const [iconStatus, setIconStatus] = useState({});
@@ -100,7 +100,7 @@ const Admin = () => {
       ...prev,
       gigs: [...prev.gigs, gig]
     }));
-    setNewGig({ date: '', title: '', location: '', type: 'Wedding', status: 'upcoming', image: '' });
+    setNewGig({ date: '', title: '', location: '', type: 'Wedding', status: 'upcoming', image: '', imageAlt: '', imageTitle: '' });
     setStatus({ type: 'success', message: 'Gig added successfully!' });
     setTimeout(() => setStatus({ type: '', message: '' }), 3000);
   };
@@ -148,7 +148,7 @@ const Admin = () => {
       ...prev,
       gallery: [...prev.gallery, item]
     }));
-    setNewGallery({ category: 'Concerts', url: '', title: '' });
+    setNewGallery({ category: 'Concerts', url: '', title: '', imageAlt: '', imageTitle: '' });
     setStatus({ type: 'success', message: 'Gallery item added!' });
     setTimeout(() => setStatus({ type: '', message: '' }), 3000);
   };
@@ -259,6 +259,7 @@ const Admin = () => {
     { id: 'intro', label: 'Intro', icon: Layout },
     { id: 'about', label: 'About', icon: Layout },
     { id: 'team', label: 'Team', icon: Users },
+    { id: 'release', label: 'Release', icon: Disc },
     { id: 'gigs', label: 'Gigs', icon: Calendar },
     { id: 'portfolio', label: 'Portfolio', icon: Video },
     { id: 'gallery', label: 'Gallery', icon: Grid },
@@ -381,6 +382,46 @@ const Admin = () => {
                         onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, canonicalUrl: e.target.value } }))}
                       />
                       <p className="text-xs text-gray-600">Prevents duplicate-content issues. Should be your primary domain.</p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Meta Robots</label>
+                      <select
+                        className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                        value={formData.seo?.metaRobots || 'index, follow'}
+                        onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, metaRobots: e.target.value } }))}
+                      >
+                        <option value="index, follow">index, follow — Allow indexing and link following (default)</option>
+                        <option value="noindex, follow">noindex, follow — Block indexing, allow link following</option>
+                        <option value="index, nofollow">index, nofollow — Allow indexing, block link following</option>
+                        <option value="noindex, nofollow">noindex, nofollow — Block everything</option>
+                      </select>
+                      <p className="text-xs text-gray-600">Controls how search engines index this site. Keep <code className="text-purple-400">index, follow</code> unless you have a specific reason to restrict.</p>
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Author</label>
+                        <input
+                          type="text"
+                          className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                          placeholder="Arok India"
+                          value={formData.seo?.author || ''}
+                          onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, author: e.target.value } }))}
+                        />
+                        <p className="text-xs text-gray-600"><code className="text-purple-400">meta name="author"</code></p>
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Publisher</label>
+                        <input
+                          type="text"
+                          className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                          placeholder="Arok India"
+                          value={formData.seo?.publisher || ''}
+                          onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, publisher: e.target.value } }))}
+                        />
+                        <p className="text-xs text-gray-600"><code className="text-purple-400">meta name="publisher"</code></p>
+                      </div>
                     </div>
                   </div>
 
@@ -1000,6 +1041,35 @@ const Admin = () => {
                     </div>
                   </div>
 
+                  {/* Logo Alt & Title */}
+                  <div className="space-y-4">
+                    <label className="text-xs font-bold text-gray-500 uppercase tracking-widest block">Logo Accessibility</label>
+                    <div className="p-6 bg-black rounded-2xl border border-zinc-800">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Alt Text</label>
+                          <input
+                            type="text"
+                            placeholder="e.g., Arok India"
+                            className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                            value={formData.logoAlt || ''}
+                            onChange={(e) => setFormData(prev => ({ ...prev, logoAlt: e.target.value }))}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Title</label>
+                          <input
+                            type="text"
+                            placeholder="e.g., Arok India Official"
+                            className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                            value={formData.logoTitle || ''}
+                            onChange={(e) => setFormData(prev => ({ ...prev, logoTitle: e.target.value }))}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                   {/* ── Icons & Manifest ─────────────────────────────── */}
                   <div className="space-y-4">
                     <label className="text-xs font-bold text-gray-500 uppercase tracking-widest block">Icons &amp; PWA Manifest</label>
@@ -1244,6 +1314,29 @@ const Admin = () => {
                         </div>
                       </div>
 
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                          <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Image Alt Text</label>
+                          <input
+                            type="text"
+                            placeholder={`e.g., ${member.name} - Arok India`}
+                            className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                            value={member.imageAlt || ''}
+                            onChange={(e) => handleInputChange('team', 'imageAlt', e.target.value, index)}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Image Title</label>
+                          <input
+                            type="text"
+                            placeholder={`e.g., ${member.name}`}
+                            className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                            value={member.imageTitle || ''}
+                            onChange={(e) => handleInputChange('team', 'imageTitle', e.target.value, index)}
+                          />
+                        </div>
+                      </div>
+
                       <div className="space-y-4">
                         <label className="text-xs font-bold text-gray-500 uppercase tracking-widest block">Social Media Links</label>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -1329,8 +1422,179 @@ const Admin = () => {
                       onChange={(e) => handleInputChange('about', 'image', e.target.value)}
                     />
                   </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Image Alt Text</label>
+                      <input
+                        type="text"
+                        placeholder="e.g., Arok India band performing live"
+                        className="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                        value={formData.about.imageAlt || ''}
+                        onChange={(e) => handleInputChange('about', 'imageAlt', e.target.value)}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Image Title</label>
+                      <input
+                        type="text"
+                        placeholder="e.g., Arok India Live Performance"
+                        className="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                        value={formData.about.imageTitle || ''}
+                        onChange={(e) => handleInputChange('about', 'imageTitle', e.target.value)}
+                      />
+                    </div>
+                  </div>
                 </div>
               )}
+
+              {activeTab === 'release' && (() => {
+                const rel = formData.release || {};
+                const setRel = (field, value) =>
+                  setFormData(prev => ({ ...prev, release: { ...(prev.release || {}), [field]: value } }));
+                return (
+                  <div className="space-y-8">
+                    {/* Enable toggle */}
+                    <div className="flex items-center justify-between p-6 bg-black rounded-2xl border border-zinc-800">
+                      <div>
+                        <p className="text-white font-bold">Show Release Section</p>
+                        <p className="text-gray-500 text-xs mt-1">Toggle visibility of the release/countdown section on the site</p>
+                      </div>
+                      <button
+                        onClick={() => setRel('enabled', !rel.enabled)}
+                        className={cn(
+                          'relative w-14 h-7 rounded-full transition-colors duration-300 flex items-center px-1',
+                          rel.enabled ? 'bg-purple-600' : 'bg-zinc-700'
+                        )}
+                      >
+                        <span className={cn(
+                          'w-5 h-5 bg-white rounded-full shadow transition-transform duration-300',
+                          rel.enabled ? 'translate-x-7' : 'translate-x-0'
+                        )} />
+                      </button>
+                    </div>
+
+                    {/* Title & Subtitle */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Title</label>
+                        <input
+                          type="text"
+                          placeholder="e.g., Chayapoth"
+                          className="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                          value={rel.title || ''}
+                          onChange={(e) => setRel('title', e.target.value)}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Subtitle</label>
+                        <input
+                          type="text"
+                          placeholder="e.g., New Single"
+                          className="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                          value={rel.subtitle || ''}
+                          onChange={(e) => setRel('subtitle', e.target.value)}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Description */}
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Description Paragraph</label>
+                      <textarea
+                        rows="3"
+                        placeholder="A brief description of the release..."
+                        className="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 resize-none"
+                        value={rel.description || ''}
+                        onChange={(e) => setRel('description', e.target.value)}
+                      />
+                    </div>
+
+                    {/* Release Date */}
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Release Date & Time</label>
+                      <input
+                        type="datetime-local"
+                        className="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                        value={rel.releaseDate ? rel.releaseDate.slice(0, 16) : ''}
+                        onChange={(e) => setRel('releaseDate', e.target.value + ':00')}
+                      />
+                      <p className="text-xs text-gray-600">Countdown timer counts down to this date. Once passed, the section shows "Out Now".</p>
+                    </div>
+
+                    {/* Album Art */}
+                    <div className="space-y-4">
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-widest block">Album Art</label>
+                      <div className="p-6 bg-black rounded-2xl border border-zinc-800 space-y-4">
+                        {rel.albumArt && (
+                          <img
+                            src={rel.albumArt}
+                            alt={rel.albumArtAlt || 'Album Art preview'}
+                            className="w-48 h-48 object-cover rounded-xl border border-zinc-700"
+                          />
+                        )}
+                        <div className="space-y-2">
+                          <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Image URL</label>
+                          <input
+                            type="text"
+                            placeholder="https://..."
+                            className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                            value={rel.albumArt || ''}
+                            onChange={(e) => setRel('albumArt', e.target.value)}
+                          />
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Alt Text</label>
+                            <input
+                              type="text"
+                              placeholder="e.g., Chayapoth - Arok India cover art"
+                              className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                              value={rel.albumArtAlt || ''}
+                              onChange={(e) => setRel('albumArtAlt', e.target.value)}
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Title Attribute</label>
+                            <input
+                              type="text"
+                              placeholder="e.g., Chayapoth by Arok India"
+                              className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                              value={rel.albumArtTitle || ''}
+                              onChange={(e) => setRel('albumArtTitle', e.target.value)}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* CTA Button */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Button Label</label>
+                        <input
+                          type="text"
+                          placeholder="e.g., Buy / Stream"
+                          className="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                          value={rel.buttonLabel || ''}
+                          onChange={(e) => setRel('buttonLabel', e.target.value)}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Button URL</label>
+                        <input
+                          type="text"
+                          placeholder="https://open.spotify.com/..."
+                          className="w-full bg-black border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                          value={rel.buttonUrl || ''}
+                          onChange={(e) => setRel('buttonUrl', e.target.value)}
+                        />
+                      </div>
+                    </div>
+                    <p className="text-xs text-gray-600">Leave Button URL empty to hide the button until the release is live.</p>
+                  </div>
+                );
+              })()}
 
               {/* Simplified other tabs for brevity */}
               {activeTab === 'gigs' && (
@@ -1405,6 +1669,28 @@ const Admin = () => {
                         value={newGig.image}
                         onChange={(e) => setNewGig({ ...newGig, image: e.target.value })}
                       />
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Image Alt Text</label>
+                        <input
+                          type="text"
+                          placeholder="e.g., Arok India live at concert"
+                          className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                          value={newGig.imageAlt || ''}
+                          onChange={(e) => setNewGig({ ...newGig, imageAlt: e.target.value })}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Image Title</label>
+                        <input
+                          type="text"
+                          placeholder="e.g., Live at Arena"
+                          className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                          value={newGig.imageTitle || ''}
+                          onChange={(e) => setNewGig({ ...newGig, imageTitle: e.target.value })}
+                        />
+                      </div>
                     </div>
                     <button
                       onClick={handleAddGig}
@@ -1491,6 +1777,26 @@ const Admin = () => {
                             value={gig.image}
                             onChange={(e) => handleInputChange('gigs', 'image', e.target.value, index)}
                           />
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div className="space-y-2">
+                            <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Image Alt Text</label>
+                            <input
+                              type="text"
+                              className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                              value={gig.imageAlt || ''}
+                              onChange={(e) => handleInputChange('gigs', 'imageAlt', e.target.value, index)}
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Image Title</label>
+                            <input
+                              type="text"
+                              className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                              value={gig.imageTitle || ''}
+                              onChange={(e) => handleInputChange('gigs', 'imageTitle', e.target.value, index)}
+                            />
+                          </div>
                         </div>
                       </div>
                     ))}
@@ -1658,6 +1964,28 @@ const Admin = () => {
                         onChange={(e) => setNewGallery({ ...newGallery, url: e.target.value })}
                       />
                     </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Image Alt Text</label>
+                        <input
+                          type="text"
+                          placeholder="e.g., Arok India performing at concert"
+                          className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                          value={newGallery.imageAlt || ''}
+                          onChange={(e) => setNewGallery({ ...newGallery, imageAlt: e.target.value })}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Image Title</label>
+                        <input
+                          type="text"
+                          placeholder="e.g., Live at Arena"
+                          className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                          value={newGallery.imageTitle || ''}
+                          onChange={(e) => setNewGallery({ ...newGallery, imageTitle: e.target.value })}
+                        />
+                      </div>
+                    </div>
                     <button
                       onClick={handleAddGallery}
                       className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-xl font-bold transition-all"
@@ -1712,6 +2040,26 @@ const Admin = () => {
                             value={item.url}
                             onChange={(e) => handleInputChange('gallery', 'url', e.target.value, index)}
                           />
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div className="space-y-2">
+                            <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Image Alt Text</label>
+                            <input
+                              type="text"
+                              className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                              value={item.imageAlt || ''}
+                              onChange={(e) => handleInputChange('gallery', 'imageAlt', e.target.value, index)}
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Image Title</label>
+                            <input
+                              type="text"
+                              className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                              value={item.imageTitle || ''}
+                              onChange={(e) => handleInputChange('gallery', 'imageTitle', e.target.value, index)}
+                            />
+                          </div>
                         </div>
                       </div>
                     ))}

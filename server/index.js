@@ -288,6 +288,9 @@ function buildHeadTags(content) {
   const ogDesc = seo.ogDescription || desc;
 
   let tags = `<title>${esc(title)}</title>\n`;
+  tags += `  <meta name="robots" content="${esc(seo.metaRobots || 'index, follow')}" />\n`;
+  if (seo.author)    tags += `  <meta name="author" content="${esc(seo.author)}" />\n`;
+  if (seo.publisher) tags += `  <meta name="publisher" content="${esc(seo.publisher)}" />\n`;
   if (desc)         tags += `  <meta name="description" content="${esc(desc)}" />\n`;
   if (seo.keywords) tags += `  <meta name="keywords" content="${esc(seo.keywords)}" />\n`;
   tags += `  <meta property="og:title" content="${esc(ogTitle)}" />\n`;

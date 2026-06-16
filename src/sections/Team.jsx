@@ -57,7 +57,8 @@ const Team = () => {
                 <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-zinc-800">
                   <img
                     src={member.image}
-                    alt={member.name}
+                    alt={member.imageAlt || member.name}
+                    title={member.imageTitle || member.name}
                     width="400"
                     height="500"
                     loading="lazy"

@@ -8,6 +8,7 @@ import { applySeo } from './utils/seoUtils';
 import Navbar from './components/Navbar';
 import Hero from './sections/Hero';
 import Intro from './sections/Intro';
+import Release from './sections/Release';
 import About from './sections/About';
 import Team from './sections/Team';
 import Gigs from './sections/Gigs';
@@ -66,6 +67,7 @@ const Home = () => {
     <main>
       <Hero />
       <Intro />
+      <Release />
       <About />
       <Team />
       <Gigs />
