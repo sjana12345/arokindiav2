@@ -422,6 +422,84 @@ const Admin = () => {
                         <img src={formData.seo.ogImage} alt="OG preview" className="mt-2 rounded-xl w-full max-w-sm object-cover border border-zinc-700" />
                       )}
                     </div>
+
+                    {/* og:image sub-properties */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Image Width (px)</label>
+                        <input
+                          type="number"
+                          className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                          placeholder="1200"
+                          value={formData.seo?.ogImageWidth || ''}
+                          onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, ogImageWidth: e.target.value } }))}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Image Height (px)</label>
+                        <input
+                          type="number"
+                          className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                          placeholder="630"
+                          value={formData.seo?.ogImageHeight || ''}
+                          onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, ogImageHeight: e.target.value } }))}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Image MIME Type</label>
+                        <select
+                          className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                          value={formData.seo?.ogImageType || 'image/jpeg'}
+                          onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, ogImageType: e.target.value } }))}
+                        >
+                          <option value="image/jpeg">image/jpeg</option>
+                          <option value="image/png">image/png</option>
+                          <option value="image/webp">image/webp</option>
+                          <option value="image/gif">image/gif</option>
+                        </select>
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">OG Type</label>
+                        <select
+                          className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                          value={formData.seo?.ogType || 'website'}
+                          onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, ogType: e.target.value } }))}
+                        >
+                          <option value="website">website</option>
+                          <option value="music.band">music.band</option>
+                          <option value="music.album">music.album</option>
+                          <option value="music.song">music.song</option>
+                          <option value="profile">profile</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Image Alt Text</label>
+                      <input
+                        type="text"
+                        className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                        placeholder="AROK INDIA Live Music Band"
+                        value={formData.seo?.ogImageAlt || ''}
+                        onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, ogImageAlt: e.target.value } }))}
+                      />
+                      <p className="text-xs text-gray-600">Describes the image for accessibility and social platforms. Used as <code className="text-purple-400">og:image:alt</code>.</p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">OG URL Override</label>
+                      <input
+                        type="text"
+                        className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                        placeholder="Leave blank to use Canonical URL"
+                        value={formData.seo?.ogUrl || ''}
+                        onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, ogUrl: e.target.value } }))}
+                      />
+                      <p className="text-xs text-gray-600">Overrides the <code className="text-purple-400">og:url</code> tag. Leave blank to use the Canonical URL set above.</p>
+                    </div>
                   </div>
 
                   {/* Twitter */}

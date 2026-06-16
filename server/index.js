@@ -286,11 +286,20 @@ function buildHeadTags(content) {
   if (seo.keywords) tags += `  <meta name="keywords" content="${esc(seo.keywords)}" />\n`;
   tags += `  <meta property="og:title" content="${esc(ogTitle)}" />\n`;
   tags += `  <meta property="og:description" content="${esc(ogDesc)}" />\n`;
-  tags += `  <meta property="og:type" content="website" />\n`;
-  if (seo.ogImage)     tags += `  <meta property="og:image" content="${esc(seo.ogImage)}" />\n`;
+  tags += `  <meta property="og:type" content="${esc(seo.ogType || 'website')}" />\n`;
+  if (seo.ogImage) {
+    tags += `  <meta property="og:image" content="${esc(seo.ogImage)}" />\n`;
+    if (seo.ogImageWidth)  tags += `  <meta property="og:image:width" content="${esc(seo.ogImageWidth)}" />\n`;
+    if (seo.ogImageHeight) tags += `  <meta property="og:image:height" content="${esc(seo.ogImageHeight)}" />\n`;
+    if (seo.ogImageType)   tags += `  <meta property="og:image:type" content="${esc(seo.ogImageType)}" />\n`;
+    if (seo.ogImageAlt)    tags += `  <meta property="og:image:alt" content="${esc(seo.ogImageAlt)}" />\n`;
+  }
+  const ogUrlValue = seo.ogUrl || seo.canonicalUrl;
+  if (ogUrlValue) {
+    tags += `  <meta property="og:url" content="${esc(ogUrlValue)}" />\n`;
+  }
   if (seo.canonicalUrl) {
     tags += `  <link rel="canonical" href="${esc(seo.canonicalUrl)}" />\n`;
-    tags += `  <meta property="og:url" content="${esc(seo.canonicalUrl)}" />\n`;
   }
   if (seo.twitterHandle) {
     const handle = seo.twitterHandle.startsWith('@') ? seo.twitterHandle : `@${seo.twitterHandle}`;
