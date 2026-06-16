@@ -287,14 +287,22 @@ app.get('/{*path}', async (req, res) => {
     let appHtml = '';
     if (ssrRender) {
       try {
+        // Make CMS content available to useContent() during renderToString
+        globalThis.__INITIAL_CONTENT__ = content;
         appHtml = ssrRender(req.url);
       } catch (e) {
         console.warn('SSR render failed, falling back to client-only:', e.message);
+      } finally {
+        delete globalThis.__INITIAL_CONTENT__;
       }
     }
 
+    // Inject content for instant client access (avoids blank flash before API fetch)
+    const safeContent = JSON.stringify(content).replace(/<\/script>/gi, '<\\/script>');
+    const initScript = `<script>window.__INITIAL_CONTENT__=${safeContent}</script>`;
+
     const html = template
-      .replace('<!--head-tags-->', buildHeadTags(content))
+      .replace('<!--head-tags-->', buildHeadTags(content) + '\n  ' + initScript)
       .replace('<!--app-html-->', appHtml);
 
     res.setHeader('Content-Type', 'text/html');

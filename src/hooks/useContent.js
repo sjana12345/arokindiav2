@@ -4,8 +4,13 @@ const API_URL = '/api';
 const CACHE_KEY = 'arok_content_cache';
 
 const readCache = () => {
-  if (typeof window === 'undefined') return null;
+  // SSR: content injected by server before renderToString
+  if (typeof window === 'undefined') {
+    return (typeof globalThis !== 'undefined' && globalThis.__INITIAL_CONTENT__) || null;
+  }
+  // Client: prefer server-injected initial content (avoids layout shift), then localStorage
   try {
+    if (window.__INITIAL_CONTENT__) return window.__INITIAL_CONTENT__;
     const raw = localStorage.getItem(CACHE_KEY);
     return raw ? JSON.parse(raw) : null;
   } catch {
