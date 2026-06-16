@@ -35,8 +35,8 @@ const Hero = () => {
       <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center">
         <motion.h1
           key={heroData.title}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ y: 20 }}
+          animate={{ y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           className="max-w-4xl text-4xl font-extrabold tracking-tight text-white md:text-6xl lg:text-7xl"
         >
@@ -48,8 +48,8 @@ const Hero = () => {
         </motion.h1>
 
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ y: 20 }}
+          animate={{ y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
           className="mt-6 max-w-2xl text-lg text-gray-300 md:text-xl lg:text-2xl"
         >
@@ -57,8 +57,8 @@ const Hero = () => {
         </motion.p>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ y: 20 }}
+          animate={{ y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
           className="mt-10"
         >
