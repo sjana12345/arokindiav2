@@ -505,16 +505,82 @@ const Admin = () => {
                   {/* Twitter */}
                   <div className="p-6 bg-black rounded-2xl border border-zinc-800 space-y-5">
                     <h4 className="text-xs font-bold text-gray-500 uppercase tracking-widest">Twitter / X Card</h4>
+                    <p className="text-xs text-gray-600">Twitter reads OG tags as fallback — only fill overrides below if you want Twitter to show different content than your OG settings.</p>
+
                     <div className="space-y-2">
-                      <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Twitter Handle</label>
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Card Type</label>
+                      <select
+                        className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                        value={formData.seo?.twitterCard || 'summary_large_image'}
+                        onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, twitterCard: e.target.value } }))}
+                      >
+                        <option value="summary_large_image">summary_large_image — Large image card (recommended)</option>
+                        <option value="summary">summary — Small thumbnail card</option>
+                        <option value="app">app — App install card</option>
+                        <option value="player">player — Video/audio player card</option>
+                      </select>
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Site Handle (@site)</label>
+                        <input
+                          type="text"
+                          className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                          placeholder="@arokindia"
+                          value={formData.seo?.twitterHandle || ''}
+                          onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, twitterHandle: e.target.value } }))}
+                        />
+                        <p className="text-xs text-gray-600">The Twitter/X account for the website.</p>
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Creator Handle (@creator)</label>
+                        <input
+                          type="text"
+                          className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                          placeholder="@username"
+                          value={formData.seo?.twitterCreator || ''}
+                          onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, twitterCreator: e.target.value } }))}
+                        />
+                        <p className="text-xs text-gray-600">The individual author's Twitter/X account.</p>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Title Override</label>
                       <input
                         type="text"
                         className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
-                        placeholder="@arokindia"
-                        value={formData.seo?.twitterHandle || ''}
-                        onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, twitterHandle: e.target.value } }))}
+                        placeholder="Leave blank to use OG Title"
+                        value={formData.seo?.twitterTitle || ''}
+                        onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, twitterTitle: e.target.value } }))}
                       />
-                      <p className="text-xs text-gray-600">Your Twitter/X @username. Used for the twitter:site tag.</p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Description Override</label>
+                      <textarea
+                        rows="2"
+                        className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 resize-none"
+                        placeholder="Leave blank to use OG Description"
+                        value={formData.seo?.twitterDescription || ''}
+                        onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, twitterDescription: e.target.value } }))}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Image URL Override</label>
+                      <input
+                        type="text"
+                        className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                        placeholder="Leave blank to use OG Image"
+                        value={formData.seo?.twitterImage || ''}
+                        onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, twitterImage: e.target.value } }))}
+                      />
+                      <p className="text-xs text-gray-600">Min 144×144 px for summary, 300×157 px for summary_large_image. Max 5 MB.</p>
+                      {formData.seo?.twitterImage && (
+                        <img src={formData.seo.twitterImage} alt="Twitter card preview" className="mt-2 rounded-xl w-full max-w-sm object-cover border border-zinc-700" />
+                      )}
                     </div>
                   </div>
 

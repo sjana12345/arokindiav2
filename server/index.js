@@ -301,13 +301,23 @@ function buildHeadTags(content) {
   if (seo.canonicalUrl) {
     tags += `  <link rel="canonical" href="${esc(seo.canonicalUrl)}" />\n`;
   }
-  if (seo.twitterHandle) {
-    const handle = seo.twitterHandle.startsWith('@') ? seo.twitterHandle : `@${seo.twitterHandle}`;
-    tags += `  <meta name="twitter:card" content="summary_large_image" />\n`;
-    tags += `  <meta name="twitter:site" content="${esc(handle)}" />\n`;
-    tags += `  <meta name="twitter:title" content="${esc(ogTitle)}" />\n`;
-    tags += `  <meta name="twitter:description" content="${esc(ogDesc)}" />\n`;
-    if (seo.ogImage) tags += `  <meta name="twitter:image" content="${esc(seo.ogImage)}" />\n`;
+  {
+    const twitterCard = seo.twitterCard || 'summary_large_image';
+    const twitterTitle = seo.twitterTitle || ogTitle;
+    const twitterDesc = seo.twitterDescription || ogDesc;
+    const twitterImg = seo.twitterImage || seo.ogImage;
+    tags += `  <meta name="twitter:card" content="${esc(twitterCard)}" />\n`;
+    if (seo.twitterHandle) {
+      const handle = seo.twitterHandle.startsWith('@') ? seo.twitterHandle : `@${seo.twitterHandle}`;
+      tags += `  <meta name="twitter:site" content="${esc(handle)}" />\n`;
+    }
+    if (seo.twitterCreator) {
+      const creator = seo.twitterCreator.startsWith('@') ? seo.twitterCreator : `@${seo.twitterCreator}`;
+      tags += `  <meta name="twitter:creator" content="${esc(creator)}" />\n`;
+    }
+    tags += `  <meta name="twitter:title" content="${esc(twitterTitle)}" />\n`;
+    tags += `  <meta name="twitter:description" content="${esc(twitterDesc)}" />\n`;
+    if (twitterImg) tags += `  <meta name="twitter:image" content="${esc(twitterImg)}" />\n`;
   }
   if (seo.googleVerification) tags += `  <meta name="google-site-verification" content="${esc(seo.googleVerification)}" />\n`;
   if (seo.bingVerification)  tags += `  <meta name="msvalidate.01" content="${esc(seo.bingVerification)}" />\n`;
