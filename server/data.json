@@ -8,7 +8,13 @@
     "ogImage": "",
     "twitterHandle": "",
     "canonicalUrl": "https://arokindia.net",
-    "robotsTxt": "User-agent: *\nDisallow: /"
+    "robotsTxt": "User-agent: *\nDisallow: /",
+    "googleVerification": "EVcE3LgbMoFLefnQhe4TPg3SO35cpjonLHEIU",
+    "bingVerification": "",
+    "googleAnalyticsId": "",
+    "googleTagManagerId": "",
+    "structuredData": "{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"MusicGroup\",\n  \"name\": \"AROK INDIA\",\n  \"url\": \"https://arokindia.net\",\n  \"genre\": [\"Live Music\", \"Wedding Band\", \"Corporate Events\"],\n  \"foundingLocation\": {\n    \"@type\": \"Place\",\n    \"name\": \"Kolkata, India\"\n  }\n}",
+    "backlinks": []
   },
   "colors": {
     "primary": "#7b0e0e",

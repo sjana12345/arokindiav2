@@ -22,12 +22,11 @@ const Admin = () => {
   const [newGallery, setNewGallery] = useState({ category: 'Concerts', url: '', title: '' });
   const [logoFile, setLogoFile] = useState(null);
   const [logoPreview, setLogoPreview] = useState('');
-  const [faviconFile, setFaviconFile] = useState(null);
-  const [faviconPreview, setFaviconPreview] = useState('');
   const [iconStatus, setIconStatus] = useState({});
   const [manifest, setManifest] = useState('');
   const [sitemapXml, setSitemapXml] = useState('');
   const [copied, setCopied] = useState('');
+  const [newBacklink, setNewBacklink] = useState({ title: '', url: '', notes: '' });
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -78,6 +77,17 @@ const Admin = () => {
     } else {
       setStatus({ type: 'error', message: result.message });
     }
+  };
+
+  const handleAddBacklink = () => {
+    if (!newBacklink.url) return;
+    const entry = { ...newBacklink, id: Date.now(), addedDate: new Date().toISOString().split('T')[0] };
+    setFormData(prev => ({ ...prev, seo: { ...prev.seo, backlinks: [...(prev.seo?.backlinks || []), entry] } }));
+    setNewBacklink({ title: '', url: '', notes: '' });
+  };
+
+  const handleDeleteBacklink = (id) => {
+    setFormData(prev => ({ ...prev, seo: { ...prev.seo, backlinks: (prev.seo?.backlinks || []).filter(b => b.id !== id) } }));
   };
 
   const handleAddGig = () => {
@@ -201,55 +211,6 @@ const Admin = () => {
     }
   };
 
-  const handleFaviconFileChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    setFaviconFile(file);
-    setFaviconPreview(URL.createObjectURL(file));
-  };
-
-  const handleFaviconUpload = async () => {
-    if (!faviconFile) {
-      setStatus({ type: 'error', message: 'Please select a favicon file' });
-      return;
-    }
-    setStatus({ type: 'loading', message: 'Uploading favicon...' });
-    const fd = new FormData();
-    fd.append('favicon', faviconFile);
-    try {
-      const res = await fetch('/api/upload/favicon', {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
-        body: fd,
-      });
-      const result = await res.json();
-      if (res.ok) {
-        setFormData(prev => ({ ...prev, favicon: result.faviconUrl }));
-        setFaviconFile(null);
-        setFaviconPreview('');
-        setStatus({ type: 'success', message: 'Favicon uploaded successfully!' });
-        setTimeout(() => setStatus({ type: '', message: '' }), 3000);
-      } else {
-        setStatus({ type: 'error', message: result.message });
-      }
-    } catch {
-      setStatus({ type: 'error', message: 'Upload failed' });
-    }
-  };
-
-  const handleFaviconRemove = async () => {
-    setStatus({ type: 'loading', message: 'Removing favicon...' });
-    const updated = { ...formData, favicon: '' };
-    const result = await updateContent(updated, token);
-    if (result.success) {
-      setFormData(updated);
-      setFaviconPreview('');
-      setStatus({ type: 'success', message: 'Favicon removed — site will use default.' });
-      setTimeout(() => setStatus({ type: '', message: '' }), 3000);
-    } else {
-      setStatus({ type: 'error', message: result.message });
-    }
-  };
 
   const handleIconUpload = async (e, route, filename) => {
     const file = e.target.files?.[0];
@@ -477,6 +438,155 @@ const Admin = () => {
                       />
                       <p className="text-xs text-gray-600">Your Twitter/X @username. Used for the twitter:site tag.</p>
                     </div>
+                  </div>
+
+                  {/* Search Console Verification */}
+                  <div className="p-6 bg-black rounded-2xl border border-zinc-800 space-y-5">
+                    <h4 className="text-xs font-bold text-gray-500 uppercase tracking-widest">Search Console Verification</h4>
+                    <p className="text-xs text-gray-600">Paste the content value from your verification meta tag. These are injected into the page <code className="text-purple-400">&lt;head&gt;</code> automatically.</p>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Google Verification Code</label>
+                      <input
+                        type="text"
+                        className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 font-mono text-sm"
+                        placeholder="e.g. abc123XYZ_googleverification"
+                        value={formData.seo?.googleVerification || ''}
+                        onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, googleVerification: e.target.value } }))}
+                      />
+                      <p className="text-xs text-gray-600">From Google Search Console → Add property → HTML tag. Copy only the <code className="text-purple-400">content="..."</code> value.</p>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Bing Webmaster Verification Code</label>
+                      <input
+                        type="text"
+                        className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 font-mono text-sm"
+                        placeholder="e.g. ABC123bingverify"
+                        value={formData.seo?.bingVerification || ''}
+                        onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, bingVerification: e.target.value } }))}
+                      />
+                      <p className="text-xs text-gray-600">From Bing Webmaster Tools → Add site → Meta tag. Copy only the <code className="text-purple-400">content="..."</code> value.</p>
+                    </div>
+                  </div>
+
+                  {/* Analytics & Tracking */}
+                  <div className="p-6 bg-black rounded-2xl border border-zinc-800 space-y-5">
+                    <h4 className="text-xs font-bold text-gray-500 uppercase tracking-widest">Analytics &amp; Tracking</h4>
+                    <p className="text-xs text-gray-600">Tracking scripts are injected server-side into every page. Leave blank to disable.</p>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Google Analytics 4 ID</label>
+                      <input
+                        type="text"
+                        className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 font-mono text-sm"
+                        placeholder="G-XXXXXXXXXX"
+                        value={formData.seo?.googleAnalyticsId || ''}
+                        onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, googleAnalyticsId: e.target.value } }))}
+                      />
+                      <p className="text-xs text-gray-600">Found in Google Analytics → Admin → Data Streams. Format: <code className="text-purple-400">G-XXXXXXXXXX</code></p>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Google Tag Manager ID</label>
+                      <input
+                        type="text"
+                        className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 font-mono text-sm"
+                        placeholder="GTM-XXXXXXX"
+                        value={formData.seo?.googleTagManagerId || ''}
+                        onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, googleTagManagerId: e.target.value } }))}
+                      />
+                      <p className="text-xs text-gray-600">From Google Tag Manager workspace. Format: <code className="text-purple-400">GTM-XXXXXXX</code>. Use GA4 OR GTM — not both.</p>
+                    </div>
+                  </div>
+
+                  {/* Structured Data / JSON-LD */}
+                  <div className="p-6 bg-black rounded-2xl border border-zinc-800 space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h4 className="text-xs font-bold text-gray-500 uppercase tracking-widest">Structured Data (JSON-LD)</h4>
+                      <button
+                        onClick={() => {
+                          try { JSON.parse(formData.seo?.structuredData || ''); setCopied('jsonld-ok'); } catch { setCopied('jsonld-err'); }
+                          setTimeout(() => setCopied(''), 2000);
+                        }}
+                        className="text-xs px-3 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-gray-400 hover:text-white transition-colors"
+                      >
+                        {copied === 'jsonld-ok' ? '✓ Valid JSON' : copied === 'jsonld-err' ? '✗ Invalid JSON' : 'Validate JSON'}
+                      </button>
+                    </div>
+                    <p className="text-xs text-gray-600">Schema.org markup injected as <code className="text-purple-400">&lt;script type="application/ld+json"&gt;</code> for rich results in Google Search.</p>
+                    <textarea
+                      rows="12"
+                      spellCheck={false}
+                      className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-green-400 font-mono focus:outline-none focus:border-purple-500 resize-y"
+                      value={formData.seo?.structuredData || ''}
+                      onChange={(e) => setFormData(prev => ({ ...prev, seo: { ...prev.seo, structuredData: e.target.value } }))}
+                    />
+                    <p className="text-xs text-gray-600">Test your markup at <span className="text-purple-400">search.google.com/test/rich-results</span> after saving.</p>
+                  </div>
+
+                  {/* Backlinks Tracker */}
+                  <div className="p-6 bg-black rounded-2xl border border-zinc-800 space-y-5">
+                    <h4 className="text-xs font-bold text-gray-500 uppercase tracking-widest">Backlinks Tracker</h4>
+                    <p className="text-xs text-gray-600">Track external sites that link to you. This is a private record — not published anywhere on your site.</p>
+
+                    {/* Add new backlink */}
+                    <div className="bg-zinc-900 rounded-xl p-4 space-y-3 border border-zinc-800">
+                      <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">Add Backlink</p>
+                      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        <input
+                          type="text"
+                          className="bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-purple-500"
+                          placeholder="Source name (e.g. IndieMusic Blog)"
+                          value={newBacklink.title}
+                          onChange={(e) => setNewBacklink(prev => ({ ...prev, title: e.target.value }))}
+                        />
+                        <input
+                          type="url"
+                          className="bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-purple-500"
+                          placeholder="https://example.com/your-link"
+                          value={newBacklink.url}
+                          onChange={(e) => setNewBacklink(prev => ({ ...prev, url: e.target.value }))}
+                        />
+                      </div>
+                      <div className="flex gap-3">
+                        <input
+                          type="text"
+                          className="flex-1 bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-purple-500"
+                          placeholder="Notes (optional)"
+                          value={newBacklink.notes}
+                          onChange={(e) => setNewBacklink(prev => ({ ...prev, notes: e.target.value }))}
+                        />
+                        <button
+                          onClick={handleAddBacklink}
+                          disabled={!newBacklink.url}
+                          className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 disabled:opacity-40 text-white text-sm font-bold rounded-xl transition-colors shrink-0"
+                        >
+                          Add
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Backlinks list */}
+                    {(formData.seo?.backlinks || []).length === 0 ? (
+                      <p className="text-xs text-gray-600 text-center py-4">No backlinks tracked yet.</p>
+                    ) : (
+                      <div className="space-y-2">
+                        {(formData.seo?.backlinks || []).map((b) => (
+                          <div key={b.id} className="flex items-start gap-3 bg-zinc-900 rounded-xl px-4 py-3 border border-zinc-800">
+                            <div className="flex-1 min-w-0 space-y-0.5">
+                              <p className="text-sm font-semibold text-white truncate">{b.title || b.url}</p>
+                              <a href={b.url} target="_blank" rel="noopener noreferrer" className="text-xs text-purple-400 hover:text-purple-300 truncate block">{b.url}</a>
+                              {b.notes && <p className="text-xs text-gray-600">{b.notes}</p>}
+                              <p className="text-xs text-gray-700">Added {b.addedDate}</p>
+                            </div>
+                            <button
+                              onClick={() => handleDeleteBacklink(b.id)}
+                              className="text-zinc-600 hover:text-red-400 transition-colors shrink-0 text-xs font-bold"
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        ))}
+                        <p className="text-xs text-gray-700 pt-1">{(formData.seo?.backlinks || []).length} backlink{(formData.seo?.backlinks || []).length !== 1 ? 's' : ''} tracked. Click <span className="text-purple-400">Save Changes</span> to persist.</p>
+                      </div>
+                    )}
                   </div>
 
                   {/* Sitemap */}
@@ -803,63 +913,6 @@ const Admin = () => {
                     </div>
                   </div>
 
-                  {/* Favicon */}
-                  <div className="space-y-4">
-                    <label className="text-xs font-bold text-gray-500 uppercase tracking-widest block">Favicon (legacy — used in `&lt;head&gt;` via API)</label>
-                    <div className="p-6 bg-black rounded-2xl border border-zinc-800 space-y-4">
-                      <p className="text-xs text-gray-500">PNG, ICO, SVG or WEBP · Max 2 MB · Recommended: square image, 32×32 or 512×512 px</p>
-
-                      {/* Current favicon */}
-                      {(faviconPreview || formData.favicon) ? (
-                        <div className="flex items-center gap-4 p-4 bg-zinc-900 rounded-xl border border-zinc-800">
-                          <img
-                            src={faviconPreview || formData.favicon}
-                            alt="Favicon"
-                            className="w-10 h-10 object-contain rounded"
-                          />
-                          <div className="flex-1">
-                            <p className="text-sm text-gray-400">{faviconPreview ? 'Preview (not yet uploaded)' : 'Active favicon'}</p>
-                          </div>
-                          {!faviconPreview && (
-                            <button onClick={handleFaviconRemove} className="text-red-500 hover:text-red-400 text-sm font-bold">
-                              Remove
-                            </button>
-                          )}
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-3 p-4 bg-zinc-900 rounded-xl border border-zinc-800 text-gray-500 text-sm">
-                          <div className="w-10 h-10 rounded bg-zinc-700 flex items-center justify-center text-xs text-gray-500">ico</div>
-                          No favicon uploaded — browser uses default favicon.svg
-                        </div>
-                      )}
-
-                      {/* Upload */}
-                      <label className="flex items-center gap-3 w-full cursor-pointer border-2 border-dashed border-zinc-700 hover:border-purple-500 rounded-xl px-6 py-6 transition-colors">
-                        <ImageIcon size={20} className="text-purple-500 shrink-0" />
-                        <span className="text-gray-400 text-sm">
-                          {faviconFile ? faviconFile.name : 'Click to select favicon image'}
-                        </span>
-                        <input
-                          type="file"
-                          accept="image/*,.ico"
-                          className="hidden"
-                          onChange={handleFaviconFileChange}
-                        />
-                      </label>
-                      <button
-                        onClick={handleFaviconUpload}
-                        disabled={!faviconFile}
-                        className={cn(
-                          'flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all',
-                          faviconFile
-                            ? 'bg-purple-600 hover:bg-purple-700 text-white'
-                            : 'bg-zinc-800 text-gray-600 cursor-not-allowed'
-                        )}
-                      >
-                        <ImageIcon size={18} /> Upload Favicon
-                      </button>
-                    </div>
-                  </div>
                 </div>
               )}
 

@@ -300,6 +300,21 @@ function buildHeadTags(content) {
     tags += `  <meta name="twitter:description" content="${esc(ogDesc)}" />\n`;
     if (seo.ogImage) tags += `  <meta name="twitter:image" content="${esc(seo.ogImage)}" />\n`;
   }
+  if (seo.googleVerification) tags += `  <meta name="google-site-verification" content="${esc(seo.googleVerification)}" />\n`;
+  if (seo.bingVerification)  tags += `  <meta name="msvalidate.01" content="${esc(seo.bingVerification)}" />\n`;
+  if (seo.googleTagManagerId) {
+    const gtmId = esc(seo.googleTagManagerId.trim());
+    tags += `  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtmId}');</script>\n`;
+  }
+  if (seo.googleAnalyticsId) {
+    const gaId = esc(seo.googleAnalyticsId.trim());
+    tags += `  <script async src="https://www.googletagmanager.com/gtag/js?id=${gaId}"></script>\n`;
+    tags += `  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${gaId}');</script>\n`;
+  }
+  if (seo.structuredData) {
+    const safeJsonLd = seo.structuredData.replace(/<\/script>/gi, '<\\/script>');
+    tags += `  <script type="application/ld+json">${safeJsonLd}</script>\n`;
+  }
   const faviconHref = content.favicon || '/favicon.svg';
   tags += `  <link rel="icon" href="${esc(faviconHref)}" />\n`;
   tags += `  <link rel="apple-touch-icon" href="${esc(faviconHref)}" />\n`;
