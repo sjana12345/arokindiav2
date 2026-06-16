@@ -211,12 +211,42 @@
       "id": 6,
       "name": "Chayapoth - Releasing on 21st June 2026",
       "role": "Arok India - New Single",
-      "category": "Crew",
+      "category": "Ad",
       "bio": "Want to showcase your brand? Contact us for advertising opportunities on our platform.",
       "image": "https://res.cloudinary.com/ddr7sd1rm/image/upload/v1781638315/CHAYAPOTH_final_1.jpg_1_1_x9vwga.jpg",
       "imageAlt": "Chayapoth - New Single by Arok India releasing 21st June 2026",
       "imageTitle": "Chayapoth by Arok India",
       "social": {}
+    },
+    {
+      "name": "Sritama Deb",
+      "role": "Manager",
+      "category": "Management",
+      "image": "",
+      "imageAlt": "",
+      "imageTitle": "",
+      "bio": "",
+      "social": {
+        "instagram": "",
+        "facebook": "",
+        "linkedin": ""
+      },
+      "id": 1781640795408
+    },
+    {
+      "name": "Arpan Mondal",
+      "role": "Photographer",
+      "category": "Crew",
+      "image": "",
+      "imageAlt": "",
+      "imageTitle": "",
+      "bio": "",
+      "social": {
+        "instagram": "",
+        "facebook": "",
+        "linkedin": ""
+      },
+      "id": 1781640818058
     }
   ],
   "gigs": [

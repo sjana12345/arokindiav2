@@ -17,6 +17,7 @@ const Admin = () => {
   const [activeTab, setActiveTab] = useState('seo');
   const [formData, setFormData] = useState(null);
   const [status, setStatus] = useState({ type: '', message: '' });
+  const [newMember, setNewMember] = useState({ name: '', role: '', category: 'Musicians', image: '', imageAlt: '', imageTitle: '', bio: '', social: { instagram: '', facebook: '', linkedin: '' } });
   const [newGig, setNewGig] = useState({ date: '', title: '', location: '', type: 'Wedding', status: 'upcoming', image: '', imageAlt: '', imageTitle: '' });
   const [newPortfolio, setNewPortfolio] = useState({ title: '', category: 'Live Shows', thumbnail: '', videoUrl: '' });
   const [newGallery, setNewGallery] = useState({ category: 'Concerts', url: '', title: '', imageAlt: '', imageTitle: '' });
@@ -159,6 +160,24 @@ const Admin = () => {
       gallery: prev.gallery.filter((_, i) => i !== index)
     }));
     setStatus({ type: 'success', message: 'Gallery item deleted!' });
+    setTimeout(() => setStatus({ type: '', message: '' }), 3000);
+  };
+
+  const handleAddMember = () => {
+    if (!newMember.name) {
+      setStatus({ type: 'error', message: 'Please enter a member name' });
+      return;
+    }
+    const member = { ...newMember, id: Date.now() };
+    setFormData(prev => ({ ...prev, team: [...prev.team, member] }));
+    setNewMember({ name: '', role: '', category: 'Musicians', image: '', imageAlt: '', imageTitle: '', bio: '', social: { instagram: '', facebook: '', linkedin: '' } });
+    setStatus({ type: 'success', message: 'Member added!' });
+    setTimeout(() => setStatus({ type: '', message: '' }), 3000);
+  };
+
+  const handleDeleteMember = (index) => {
+    setFormData(prev => ({ ...prev, team: prev.team.filter((_, i) => i !== index) }));
+    setStatus({ type: 'success', message: 'Member deleted!' });
     setTimeout(() => setStatus({ type: '', message: '' }), 3000);
   };
 
@@ -1265,115 +1284,244 @@ const Admin = () => {
               )}
 
               {activeTab === 'team' && (
-                <div className="space-y-12">
-                  {formData.team.map((member, index) => (
-                    <div key={member.id} className="p-6 bg-black rounded-2xl border border-zinc-800 space-y-6">
-                      <h4 className="font-bold text-purple-500 uppercase tracking-widest text-sm">Member: {member.name}</h4>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-2">
-                          <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Name</label>
-                          <input
-                            type="text"
-                            className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
-                            value={member.name}
-                            onChange={(e) => handleInputChange('team', 'name', e.target.value, index)}
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Designation / Role</label>
-                          <input
-                            type="text"
-                            className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
-                            value={member.role}
-                            onChange={(e) => handleInputChange('team', 'role', e.target.value, index)}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-2">
-                          <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Image URL</label>
-                          <input
-                            type="text"
-                            className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
-                            value={member.image}
-                            onChange={(e) => handleInputChange('team', 'image', e.target.value, index)}
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Category</label>
-                          <select
-                            className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
-                            value={member.category}
-                            onChange={(e) => handleInputChange('team', 'category', e.target.value, index)}
-                          >
-                            <option value="Musicians">Musicians</option>
-                            <option value="Crew">Crew</option>
-                            <option value="Management">Management</option>
-                          </select>
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-2">
-                          <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Image Alt Text</label>
-                          <input
-                            type="text"
-                            placeholder={`e.g., ${member.name} - Arok India`}
-                            className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
-                            value={member.imageAlt || ''}
-                            onChange={(e) => handleInputChange('team', 'imageAlt', e.target.value, index)}
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Image Title</label>
-                          <input
-                            type="text"
-                            placeholder={`e.g., ${member.name}`}
-                            className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
-                            value={member.imageTitle || ''}
-                            onChange={(e) => handleInputChange('team', 'imageTitle', e.target.value, index)}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="space-y-4">
-                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest block">Social Media Links</label>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                          <input
-                            type="text"
-                            placeholder="Instagram URL"
-                            className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-purple-500"
-                            value={member.social?.instagram || ''}
-                            onChange={(e) => handleInputChange('team', 'social', { ...member.social, instagram: e.target.value }, index)}
-                          />
-                          <input
-                            type="text"
-                            placeholder="Facebook URL"
-                            className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-purple-500"
-                            value={member.social?.facebook || ''}
-                            onChange={(e) => handleInputChange('team', 'social', { ...member.social, facebook: e.target.value }, index)}
-                          />
-                          <input
-                            type="text"
-                            placeholder="LinkedIn URL"
-                            className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-purple-500"
-                            value={member.social?.linkedin || ''}
-                            onChange={(e) => handleInputChange('team', 'social', { ...member.social, linkedin: e.target.value }, index)}
-                          />
-                        </div>
+                <div className="space-y-8">
+                  {/* Add New Member Form */}
+                  <div className="p-6 bg-black rounded-2xl border border-zinc-800 space-y-6">
+                    <h4 className="font-bold text-purple-500 uppercase tracking-widest text-sm">Add New Member</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Name</label>
+                        <input
+                          type="text"
+                          placeholder="e.g., Riya Sharma"
+                          className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                          value={newMember.name}
+                          onChange={(e) => setNewMember({ ...newMember, name: e.target.value })}
+                        />
                       </div>
                       <div className="space-y-2">
-                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Biography</label>
-                        <textarea
-                          rows="3"
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Designation / Role</label>
+                        <input
+                          type="text"
+                          placeholder="e.g., Keyboardist"
                           className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
-                          value={member.bio}
-                          onChange={(e) => handleInputChange('team', 'bio', e.target.value, index)}
+                          value={newMember.role}
+                          onChange={(e) => setNewMember({ ...newMember, role: e.target.value })}
                         />
                       </div>
                     </div>
-                  ))}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Image URL</label>
+                        <input
+                          type="text"
+                          placeholder="https://..."
+                          className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                          value={newMember.image}
+                          onChange={(e) => setNewMember({ ...newMember, image: e.target.value })}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Category</label>
+                        <select
+                          className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                          value={newMember.category}
+                          onChange={(e) => setNewMember({ ...newMember, category: e.target.value })}
+                        >
+                          <option value="Musicians">Musicians</option>
+                          <option value="Crew">Crew</option>
+                          <option value="Management">Management</option>
+                          <option value="Ad">Ad</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Image Alt Text</label>
+                        <input
+                          type="text"
+                          placeholder="e.g., Riya Sharma - Arok India"
+                          className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                          value={newMember.imageAlt}
+                          onChange={(e) => setNewMember({ ...newMember, imageAlt: e.target.value })}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Image Title</label>
+                        <input
+                          type="text"
+                          placeholder="e.g., Riya Sharma"
+                          className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                          value={newMember.imageTitle}
+                          onChange={(e) => setNewMember({ ...newMember, imageTitle: e.target.value })}
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-widest block">Social Media Links</label>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <input
+                          type="text"
+                          placeholder="Instagram URL"
+                          className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-purple-500"
+                          value={newMember.social.instagram}
+                          onChange={(e) => setNewMember({ ...newMember, social: { ...newMember.social, instagram: e.target.value } })}
+                        />
+                        <input
+                          type="text"
+                          placeholder="Facebook URL"
+                          className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-purple-500"
+                          value={newMember.social.facebook}
+                          onChange={(e) => setNewMember({ ...newMember, social: { ...newMember.social, facebook: e.target.value } })}
+                        />
+                        <input
+                          type="text"
+                          placeholder="LinkedIn URL"
+                          className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-purple-500"
+                          value={newMember.social.linkedin}
+                          onChange={(e) => setNewMember({ ...newMember, social: { ...newMember.social, linkedin: e.target.value } })}
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Biography</label>
+                      <textarea
+                        rows="3"
+                        placeholder="Short bio..."
+                        className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                        value={newMember.bio}
+                        onChange={(e) => setNewMember({ ...newMember, bio: e.target.value })}
+                      />
+                    </div>
+                    <button
+                      onClick={handleAddMember}
+                      className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-xl font-bold transition-all"
+                    >
+                      Add Member
+                    </button>
+                  </div>
+
+                  {/* Existing Members */}
+                  <div className="space-y-6">
+                    <h4 className="font-bold text-purple-500 uppercase tracking-widest text-sm">Existing Members</h4>
+                    {formData.team.map((member, index) => (
+                      <div key={member.id} className="p-6 bg-black rounded-2xl border border-zinc-800 space-y-6">
+                        <div className="flex justify-between items-center">
+                          <h5 className="font-bold text-white">{member.name || `Member #${index + 1}`}</h5>
+                          <button
+                            onClick={() => handleDeleteMember(index)}
+                            className="text-red-500 hover:text-red-400 text-sm font-bold"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div className="space-y-2">
+                            <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Name</label>
+                            <input
+                              type="text"
+                              className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                              value={member.name}
+                              onChange={(e) => handleInputChange('team', 'name', e.target.value, index)}
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Designation / Role</label>
+                            <input
+                              type="text"
+                              className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                              value={member.role}
+                              onChange={(e) => handleInputChange('team', 'role', e.target.value, index)}
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div className="space-y-2">
+                            <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Image URL</label>
+                            <input
+                              type="text"
+                              className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                              value={member.image}
+                              onChange={(e) => handleInputChange('team', 'image', e.target.value, index)}
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Category</label>
+                            <select
+                              className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                              value={member.category}
+                              onChange={(e) => handleInputChange('team', 'category', e.target.value, index)}
+                            >
+                              <option value="Musicians">Musicians</option>
+                              <option value="Crew">Crew</option>
+                              <option value="Management">Management</option>
+                              <option value="Ad">Ad</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div className="space-y-2">
+                            <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Image Alt Text</label>
+                            <input
+                              type="text"
+                              placeholder={`e.g., ${member.name} - Arok India`}
+                              className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                              value={member.imageAlt || ''}
+                              onChange={(e) => handleInputChange('team', 'imageAlt', e.target.value, index)}
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Image Title</label>
+                            <input
+                              type="text"
+                              placeholder={`e.g., ${member.name}`}
+                              className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                              value={member.imageTitle || ''}
+                              onChange={(e) => handleInputChange('team', 'imageTitle', e.target.value, index)}
+                            />
+                          </div>
+                        </div>
+
+                        <div className="space-y-4">
+                          <label className="text-xs font-bold text-gray-500 uppercase tracking-widest block">Social Media Links</label>
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <input
+                              type="text"
+                              placeholder="Instagram URL"
+                              className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-purple-500"
+                              value={member.social?.instagram || ''}
+                              onChange={(e) => handleInputChange('team', 'social', { ...member.social, instagram: e.target.value }, index)}
+                            />
+                            <input
+                              type="text"
+                              placeholder="Facebook URL"
+                              className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-purple-500"
+                              value={member.social?.facebook || ''}
+                              onChange={(e) => handleInputChange('team', 'social', { ...member.social, facebook: e.target.value }, index)}
+                            />
+                            <input
+                              type="text"
+                              placeholder="LinkedIn URL"
+                              className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-2 text-sm text-white focus:outline-none focus:border-purple-500"
+                              value={member.social?.linkedin || ''}
+                              onChange={(e) => handleInputChange('team', 'social', { ...member.social, linkedin: e.target.value }, index)}
+                            />
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Biography</label>
+                          <textarea
+                            rows="3"
+                            className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+                            value={member.bio}
+                            onChange={(e) => handleInputChange('team', 'bio', e.target.value, index)}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
 
