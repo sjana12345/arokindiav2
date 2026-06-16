@@ -14,9 +14,9 @@
     "primary": "#7b0e0e",
     "secondary": "#a1456d"
   },
-  "favicon": "/uploads/favicon.png",
+  "favicon": "",
   "logo": "/uploads/logo.png",
-  "logoHeight": 70,
+  "logoHeight": 120,
   "hero": {
     "title": "Arok India ",
     "subtitle": "Live Performances • Wedding Events • Concert Shows • Studio Production",

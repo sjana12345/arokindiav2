@@ -17,8 +17,10 @@ const PORT = process.env.PORT || 5001;
 const SECRET_KEY = process.env.JWT_SECRET || 'arok_india_super_secret_2026';
 const DATA_FILE = path.join(__dirname, 'data.json');
 const UPLOADS_DIR = path.join(__dirname, 'uploads');
+const ICONS_DIR = path.join(__dirname, 'icons');
 
 if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR);
+if (!fs.existsSync(ICONS_DIR)) fs.mkdirSync(ICONS_DIR);
 
 const makeStorage = (baseName) =>
   multer.diskStorage({
@@ -33,6 +35,18 @@ const imageFilter = (_req, file, cb) => {
 
 const upload = multer({ storage: makeStorage('logo'), limits: { fileSize: 5 * 1024 * 1024 }, fileFilter: imageFilter });
 const uploadFavicon = multer({ storage: makeStorage('favicon'), limits: { fileSize: 2 * 1024 * 1024 }, fileFilter: imageFilter });
+
+// Icon-specific multer — saves with an exact filename into ICONS_DIR
+// Accept all file types (admin knows what they're uploading)
+const makeIconUpload = (filename) =>
+  multer({
+    storage: multer.diskStorage({
+      destination: (_req, _file, cb) => cb(null, ICONS_DIR),
+      filename: (_req, _file, cb) => cb(null, filename),
+    }),
+    limits: { fileSize: 10 * 1024 * 1024 },
+    fileFilter: (_req, _file, cb) => cb(null, true),
+  });
 
 app.use(cors());
 app.use(express.json());
@@ -108,6 +122,41 @@ app.post('/api/upload/favicon', authenticateToken, uploadFavicon.single('favicon
       if (writeErr) return res.status(500).json({ message: 'Error saving favicon' });
       res.json({ message: 'Favicon uploaded successfully', faviconUrl });
     });
+  });
+});
+
+// Icon file uploads (saved to ICONS_DIR, served at site root)
+const ICON_ROUTES = [
+  { route: 'apple-touch-icon', filename: 'apple-touch-icon.png' },
+  { route: 'favicon-png',      filename: 'favicon-96x96.png'    },
+  { route: 'favicon-svg',      filename: 'favicon.svg'          },
+  { route: 'favicon-ico',      filename: 'favicon.ico'          },
+];
+
+for (const { route, filename } of ICON_ROUTES) {
+  app.post(`/api/upload/icon/${route}`, authenticateToken, makeIconUpload(filename).single('file'), (req, res) => {
+    if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
+    res.json({ message: `${filename} uploaded`, url: `/${filename}` });
+  });
+}
+
+// Icon status — tells the client which files have been uploaded
+app.get('/api/icons/status', (_req, res) => {
+  const files = ['apple-touch-icon.png', 'favicon-96x96.png', 'favicon.svg', 'favicon.ico', 'site.webmanifest'];
+  const status = Object.fromEntries(files.map(f => [f, fs.existsSync(path.join(ICONS_DIR, f))]));
+  res.json(status);
+});
+
+// Web App Manifest
+app.get('/api/manifest', (_req, res) => {
+  const p = path.join(ICONS_DIR, 'site.webmanifest');
+  res.json({ manifest: fs.existsSync(p) ? fs.readFileSync(p, 'utf-8') : '' });
+});
+
+app.post('/api/manifest', authenticateToken, (req, res) => {
+  fs.writeFile(path.join(ICONS_DIR, 'site.webmanifest'), req.body.manifest || '', (err) => {
+    if (err) return res.status(500).json({ message: 'Error saving manifest' });
+    res.json({ message: 'Manifest saved' });
   });
 });
 
@@ -251,7 +300,9 @@ function buildHeadTags(content) {
     tags += `  <meta name="twitter:description" content="${esc(ogDesc)}" />\n`;
     if (seo.ogImage) tags += `  <meta name="twitter:image" content="${esc(seo.ogImage)}" />\n`;
   }
-  if (content.favicon) tags += `  <link rel="icon" href="${esc(content.favicon)}" />\n`;
+  const faviconHref = content.favicon || '/favicon.svg';
+  tags += `  <link rel="icon" href="${esc(faviconHref)}" />\n`;
+  tags += `  <link rel="apple-touch-icon" href="${esc(faviconHref)}" />\n`;
   if (colors.primary) {
     const p = colors.primary;
     tags += `  <style>:root{--color-purple-300:${hexLighten(p,0.4)};--color-purple-400:${hexLighten(p,0.2)};--color-purple-500:${p};--color-purple-600:${hexDarken(p,0.87)};--color-purple-700:${hexDarken(p,0.75)}}</style>\n`;
@@ -264,6 +315,8 @@ function buildHeadTags(content) {
 const CLIENT_DIR = path.join(__dirname, '../dist/client');
 const SERVER_ENTRY = path.join(__dirname, '../dist/server/entry-server.js');
 
+// Icons uploaded via Admin are served at the root path (highest priority)
+app.use(express.static(ICONS_DIR));
 // Serve built JS/CSS/assets, skip index.html so the catch-all handles it
 app.use(express.static(CLIENT_DIR, { index: false }));
 
